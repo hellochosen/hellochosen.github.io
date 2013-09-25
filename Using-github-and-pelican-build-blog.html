@@ -57,20 +57,20 @@
           <p class="meta"><time datetime="2013-09-25T00:00:00" pubdate>Wed 25 September 2013</time></p>
 </header>
 
-  <div class="entry-content"><p><strong>github pages</strong></p>
-<p>1.create a new respository in your github website.respository name like this:<strong>username.github.io</strong></p>
-<p>please refer to google.</p>
-<p><strong>pelican</strong></p>
-<p><strong>1.Introduction for pelican</strong></p>
+  <div class="entry-content"><h2><strong>github pages</strong></h2>
+<p>1.create a new respository in your github website . Respository name like this : <strong>username.github.io</strong></p>
+<p>See more , please refer to google.</p>
+<h2><strong>pelican</strong></h2>
+<h3><strong>1.Introduction for pelican</strong></h3>
 <p><strong>Pelican</strong> is a static site generator that supports <strong>Markdown</strong> and <strong>reST</strong> syntax . You can add posts and create your pages . Also it support <strong>Disqus</strong> comment system ,<strong>RSS</strong>,<strong>Atom</strong>,<strong>plugins</strong>,<strong>themes</strong>,<strong>code syntax highlight</strong> etc ...</p>
-<p><strong>2.Install pelican and markdown</strong></p>
+<h3><strong>2.Install pelican and markdown</strong></h3>
 <div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span> <span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">pelican</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">Markdown</span>
 </pre></div>
 
 
-<p><strong>3.create blog</strong></p>
+<h3><strong>3.create blog</strong></h3>
 <div class="highlight"><pre><span class="n">mkdir</span> <span class="n">blog</span>
 <span class="n">cd</span> <span class="n">blog</span>
 <span class="cp">#quickly install blog</span>
@@ -79,7 +79,7 @@
 
 
 <p>use the default configuration</p>
-<p><strong>4.write post</strong></p>
+<h3><strong>4.write post</strong></h3>
 <p>a.change directory to blog/content , write a post using Markdown syntax:</p>
 <div class="highlight"><pre><span class="n">Date</span><span class="o">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">25</span> 
 <span class="n">Title</span><span class="o">:</span> <span class="n">My</span> <span class="n">first</span> <span class="n">blog</span>
@@ -93,8 +93,8 @@
 </pre></div>
 
 
-<p>c.In dir blog/output ,you will see the generation.</p>
-<p><strong>5.create a local git respo</strong></p>
+<p>c.In dir blog/output ,you will see the output.</p>
+<h3><strong>5.create a local git respo</strong></h3>
 <div class="highlight"><pre><span class="n">cd</span> <span class="n">output</span>
 <span class="n">git</span> <span class="n">init</span>
 <span class="n">git</span> <span class="n">add</span> <span class="p">.</span>
@@ -103,7 +103,36 @@
 </pre></div>
 
 
-<p><strong>6.</strong></p></div>
+<h3><strong>6.publish script</strong></h3>
+<p>For the purpose of next publish , I write a shell script , use "chmod" modify privilege :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+pelican -s pelicanconf.py content/
+<span class="nb">cd </span>output
+git add .
+git commit -m <span class="s2">&quot;update&quot;</span>
+git pull origin master
+git push origin master
+</pre></div>
+</td></tr></table>
+
+<h3><strong>7.change theme</strong></h3>
+<p>a.Run this command in blog/ ,also you can clone other themes:</p>
+<div class="highlight"><pre><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="o">:</span><span class="c1">//github.com/duilio/pelican-octopress-theme</span>
+</pre></div>
+
+
+<p>b.modify pelicanconf.py , add "THEME"</p>
+<div class="highlight"><pre><span class="n">THEME</span> <span class="o">=</span> <span class="s">&quot;pelican-octopress-theme&quot;</span>
+</pre></div>
+
+
+<h3><strong>7.pelicanconf</strong></h3></div>
     <footer>
       <p class="meta">
   <span class="byline author vcard">
