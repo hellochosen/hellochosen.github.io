@@ -62,9 +62,10 @@
 <p>See more , please refer to google.</p>
 <h2><strong>pelican</strong></h2>
 <h3><strong>1.Introduction for pelican</strong></h3>
-<p><strong>Pelican</strong> is a static site generator that supports <strong>Markdown</strong> and <strong>reST</strong> syntax . You can add posts and create your pages . Also it support <strong>Disqus</strong> comment system ,<strong>RSS</strong>,<strong>Atom</strong>,<strong>plugins</strong>,<strong>themes</strong>,<strong>code syntax highlight</strong> etc ...</p>
+<p><strong>Pelican</strong> is a static site generator that supports <strong>Markdown</strong> and <strong>reST</strong> syntax . You can add posts and create your pages . Also it support <strong>Disqus</strong> comment system , <strong>RSS</strong> , <strong>Atom</strong> , <strong>plugins</strong> , <strong>themes</strong> , <strong>code syntax highlight</strong> , etc ...</p>
 <h3><strong>2.Install pelican and markdown</strong></h3>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span> <span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
+<div class="highlight"><pre><span class="cp">#In ubuntu 12.04</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">pip</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">pelican</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">Markdown</span>
 </pre></div>
@@ -78,9 +79,9 @@
 </pre></div>
 
 
-<p>use the default configuration</p>
+<p>use the default configuration , press the "Enter".</p>
 <h3><strong>4.write post</strong></h3>
-<p>a.change directory to blog/content , write a post using Markdown syntax:</p>
+<p>a. change directory to blog/content , write a post using Markdown syntax:</p>
 <div class="highlight"><pre><span class="n">Date</span><span class="o">:</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">25</span> 
 <span class="n">Title</span><span class="o">:</span> <span class="n">My</span> <span class="n">first</span> <span class="n">blog</span>
 <span class="n">Category</span><span class="o">:</span> <span class="n">Tool</span> 
@@ -88,13 +89,13 @@
 </pre></div>
 
 
-<p>b.change directory to blog/:</p>
+<p>b. change directory to blog/:</p>
 <div class="highlight"><pre><span class="n">pelican</span> <span class="o">-</span><span class="n">s</span> <span class="n">pelicanconf</span><span class="p">.</span><span class="n">py</span> <span class="n">content</span><span class="o">/</span>
 </pre></div>
 
 
-<p>c.In dir blog/output ,you will see the output.</p>
-<h3><strong>5.create a local git respo</strong></h3>
+<p>c. In dir blog/output ,you will see the outputs.</p>
+<h3><strong>5.create a local git respository</strong></h3>
 <div class="highlight"><pre><span class="n">cd</span> <span class="n">output</span>
 <span class="n">git</span> <span class="n">init</span>
 <span class="n">git</span> <span class="n">add</span> <span class="p">.</span>
@@ -104,14 +105,16 @@
 
 
 <h3><strong>6.publish script</strong></h3>
-<p>For the purpose of next publish , I write a shell script , use "chmod" modify privilege :</p>
+<p>For the purpose of next publish , I write a shell script , use "chmod 777" modify privilege :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<span class="c">#And never use &quot;make html&quot; , this can destroy your git</span>
 pelican -s pelicanconf.py content/
 <span class="nb">cd </span>output
 git add .
@@ -132,7 +135,16 @@ git push origin master
 </pre></div>
 
 
-<h3><strong>7.pelicanconf</strong></h3></div>
+<h3><strong>8.pelicanconf</strong></h3>
+<h3><strong>9.plugins</strong></h3>
+<h3><strong>10.static files and static directory</strong></h3>
+<h3><strong>11.comment</strong></h3>
+<p>use <strong>Disqus</strong></p>
+<div class="highlight"><pre><span class="n">DISQUS_SITENAME</span> <span class="o">=</span> <span class="n">U</span><span class="s">&quot;XXX&quot;</span>
+</pre></div>
+
+
+<h3><strong>12.CNAME</strong></h3></div>
     <footer>
       <p class="meta">
   <span class="byline author vcard">
