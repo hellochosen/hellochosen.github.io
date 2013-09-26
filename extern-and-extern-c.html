@@ -57,41 +57,46 @@
           <p class="meta"><time datetime="2013-09-26T00:00:00" pubdate>Thu 26 September 2013</time></p>
 </header>
 
-  <div class="entry-content"><p>1.using <strong>extern</strong> to Specify Linkage
-<pre>
-extern string-literal { declaration-list }
-extern string-literal declaration
-</pre>
-The <strong>extern</strong> keyword declares a variable or function and specifies that it has external linkage (its name is visible from files other than the one in which it's defined). When modifying a variable, <strong>extern</strong> specifies that the variable has static duration (it is allocated when the program begins and deallocated when the program ends). The variable or function may be defined in another source file, or later in the same file. Declarations of variables and functions at file scope are external by default.</p>
-<p>2.extern "C"
-In C++, when used with a string, <strong>extern</strong> specifies that the linkage conventions of another language are being used for the declarator(s). C functions and data can be accessed only if they are previously declared as having C linkage. <strong>However, they must be defined in a separately compiled translation unit.</strong></p>
+  <div class="entry-content"><p>1.using <strong>extern</strong> to Specify Linkage</p>
+<div class="highlight"><pre><span class="k">extern</span> <span class="n">string</span><span class="o">-</span><span class="n">literal</span> <span class="p">{</span> <span class="n">declaration</span><span class="o">-</span><span class="n">list</span> <span class="p">}</span>
+<span class="k">extern</span> <span class="n">string</span><span class="o">-</span><span class="n">literal</span> <span class="n">declaration</span>
+</pre></div>
+
+
+<p>The <strong>extern</strong> keyword declares a variable or function and specifies that it has external linkage (its name is visible from files other than the one in which it's defined). When modifying a variable, <strong>extern</strong> specifies that the variable has static duration (it is allocated when the program begins and deallocated when the program ends). The variable or function may be defined in another source file, or later in the same file. Declarations of variables and functions at file scope are external by default.</p>
+<p>2.extern "C"</p>
+<p>In C++, when used with a string, <strong>extern</strong> specifies that the linkage conventions of another language are being used for the declarator(s). C functions and data can be accessed only if they are previously declared as having C linkage. <strong>However, they must be defined in a separately compiled translation unit.</strong></p>
 <p>All of the standard include files use the <strong>extern</strong> "C" syntax to allow the run-time library functions to be used in C++ programs.</p>
-<p>Example:
-<pre>
-//declare printf with C linkage
-extern "C" int printf(const char *fmt, ...);</p>
-<p>//specified header files to have C linkage
-extern "C" {
-        #include <stdio.h>
-}</p>
-<p>//declare two functions with C linkage
-extern "C" {
-        char ShowChar(char ch);
-        char GetChar(void);
-}</p>
-<p>//define two functions with C linkage
-extern "C" char ShowChar(char ch) {
-        putchar(ch);
-        return ch;
-}</p>
-<p>extern "C" char GetChar(void) {
-        char ch;
-        ch = getchar();
-        return ch;
-}</p>
-<p>//declare a global variable "errno" with C linkage
-extern "C" int errno;
-</pre></p></div>
+<p>Example:</p>
+<div class="highlight"><pre><span class="c1">//declare printf with C linkage</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="k">int</span> <span class="n">printf</span><span class="p">(</span><span class="k">const</span> <span class="n">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...);</span>
+
+<span class="c1">//specified header files to have C linkage</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+        <span class="p">#</span><span class="k">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&amp;</span><span class="n">gt</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//declare two functions with C linkage</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+        <span class="n">char</span> <span class="n">ShowChar</span><span class="p">(</span><span class="n">char</span> <span class="n">ch</span><span class="p">);</span>
+        <span class="n">char</span> <span class="n">GetChar</span><span class="p">(</span><span class="k">void</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//define two functions with C linkage</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="n">char</span> <span class="n">ShowChar</span><span class="p">(</span><span class="n">char</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">putchar</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="n">char</span> <span class="n">GetChar</span><span class="p">(</span><span class="k">void</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">char</span> <span class="n">ch</span><span class="p">;</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//declare a global variable &quot;errno&quot; with C linkage</span>
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="k">int</span> <span class="n">errno</span><span class="p">;</span>
+</pre></div></div>
     <footer>
       <p class="meta">
   <span class="byline author vcard">
