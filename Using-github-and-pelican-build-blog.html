@@ -139,10 +139,45 @@ git push origin master
 
 <h3><strong>8.pelicanconf</strong></h3>
 <h3><strong>9.plugins</strong></h3>
+<p>In blog/ directory:</p>
+<div class="highlight"><pre><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="o">:</span><span class="c1">//github.com/getpelican/pelican-plugins.git</span>
+</pre></div>
+
+
+<p>vim pelicanconf.py:</p>
+<div class="highlight"><pre><span class="n">PLUGIN_PATH</span> <span class="o">=</span> <span class="n">u</span><span class="err">&#39;</span><span class="n">pelican</span><span class="o">-</span><span class="n">plugins</span><span class="err">&#39;</span>  <span class="err">#</span><span class="n">set</span> <span class="n">plugin</span> <span class="n">path</span>
+<span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="err">&#39;</span><span class="n">sitemap</span><span class="err">&#39;</span><span class="p">]</span> <span class="err">#</span><span class="n">set</span> <span class="n">enabled</span> <span class="n">plugins</span>
+
+<span class="cp">#set sitemap</span>
+<span class="n">SITEMAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&quot;format&quot;</span><span class="o">:</span> <span class="s">&quot;xml&quot;</span><span class="p">,</span>
+    <span class="s">&quot;priorities&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;articles&quot;</span><span class="o">:</span> <span class="mf">0.7</span><span class="p">,</span>
+    <span class="s">&quot;indexes&quot;</span><span class="o">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s">&quot;pages&quot;</span><span class="o">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s">&quot;changefreqs&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;articles&quot;</span><span class="o">:</span> <span class="s">&quot;monthly&quot;</span><span class="p">,</span>
+    <span class="s">&quot;indexes&quot;</span><span class="o">:</span> <span class="s">&quot;daily&quot;</span><span class="p">,</span>
+    <span class="s">&quot;pages&quot;</span><span class="o">:</span> <span class="s">&quot;monthly&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <h3><strong>10.static files and static directory</strong></h3>
+<p>mkdir extra in your content directory,
+then vi pelicanconf.py:</p>
+<div class="highlight"><pre><span class="n">FILES_TO_COPY</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="s">&quot;extra/robots.txt&quot;</span><span class="p">,</span> <span class="s">&quot;robots.txt&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>when generate the static files , they will copy to extra . </p>
 <h3><strong>11.comment</strong></h3>
-<p>use <strong>Disqus</strong></p>
-<div class="highlight"><pre><span class="n">DISQUS_SITENAME</span> <span class="o">=</span> <span class="n">U</span><span class="s">&quot;XXX&quot;</span>
+<p>use <strong>Disqus</strong> , Disqus is a third-party comment platform . Firstly , you should register on disqus . Follow the presentation . Modify pelicanconf.py</p>
+<div class="highlight"><pre><span class="n">DISQUS_SITENAME</span> <span class="o">=</span> <span class="n">u</span><span class="s">&quot;xxx&quot;</span>
 </pre></div>
 
 
