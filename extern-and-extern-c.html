@@ -74,25 +74,25 @@
 <span class="c1">//specified header files to have C linkage</span>
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
     <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
-    <span class="p">}</span>
+<span class="p">}</span>
 
 <span class="c1">//declare two functions with C linkage</span>
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
     <span class="kt">char</span> <span class="n">ShowChar</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">);</span>
-        <span class="kt">char</span> <span class="nf">GetChar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="kt">char</span> <span class="nf">GetChar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="p">}</span>
 
 <span class="c1">//define two functions with C linkage</span>
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">char</span> <span class="n">ShowChar</span><span class="p">(</span><span class="kt">char</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">putchar</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
 
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">char</span> <span class="n">GetChar</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
     <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
-        <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
-        <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+    <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
 
 <span class="c1">//declare a global variable &quot;errno&quot; with C linkage</span>
 <span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">int</span> <span class="n">errno</span><span class="p">;</span>
