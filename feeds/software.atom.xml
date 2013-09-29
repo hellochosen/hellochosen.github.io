@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>squarey's blog</title><link href="http://hellochosen.github.io/" rel="alternate"></link><link href="http://hellochosen.github.io/feeds/software.atom.xml" rel="self"></link><id>http://hellochosen.github.io/</id><updated>2013-09-29T00:00:00+08:00</updated><entry><title>Design pattern and python object model</title><link href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html" rel="alternate"></link><updated>2013-09-29T00:00:00+08:00</updated><author><name>squarey</name></author><id>tag:hellochosen.github.io,2013-09-29:Design-pattern-and-python-object-model.html</id><summary type="html">&lt;h2&gt;一.什么是设计模式&lt;/h2&gt;
+&lt;p&gt;设计模式使得人们可以更加简单和方便地去复用成功的软件设计和体系架构，从而能够帮助设计者更快更好地完成系统设计。&lt;/p&gt;
+&lt;p&gt;设计模式的概念最早源于建筑设计大师，Christopher Alexander关于城市规划和建筑设计的著作《建筑的永恒方法》，Alexander是这样描述模式的：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;模式是一条由三部分组成的规则，它表示了一个特定环境，一个问题和一个解决方案之间的关系。每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，你就能一次次地使用该方案而不必做重复劳动。&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;将设计模式引入软件设计和开发过程的目的在与充分利用已有的软件开发经验，这是因为设计模式通常是对于某一类软件设计问题的可重用的解决方案。&lt;/p&gt;
+&lt;p&gt;在软件设计领域中，每一个设计模式都系统地命名、解释和评价了面向对象系统中的一个重要的和可复用的设计。&lt;/p&gt;
+&lt;h2&gt;二.经典的设计模式MVC&lt;/h2&gt;
+&lt;p&gt;源于Smalltalk，并在java中得到广泛应用的模型-视图-控制器（Model-View-Controller,MVC）模式，是一个非常经典的设计模式。&lt;/p&gt;
+&lt;p&gt;MVC模式通常用在开发人机交互软件的时候，这类软件的最大特点就时用户界面容易改变，例如，当你要扩展一个应用程序的功能时，通常需要修改菜单来反映这种变化。如果用户界面和核心功能紧紧交织在一起，要建立这样一个灵活的系统通常是非常困难的，因为很容易产生错误。为了更好地开发这样的软件系统，系统设计师必须考虑下面两个因素：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用户界面应该是易于改变的，甚至在运行期间也是有可能改变的；&lt;/li&gt;
+&lt;li&gt;用户界面的修改或移植不会影响软件的核心功能代码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;为了解决这个问题，可以采用将&lt;strong&gt;模型&lt;/strong&gt;（Model）、&lt;strong&gt;视图&lt;/strong&gt;(View)和&lt;strong&gt;控制器&lt;/strong&gt;(Controller)相分离的思想。&lt;/p&gt;
+&lt;p&gt;在这种设计模式中，&lt;strong&gt;模型&lt;/strong&gt;用来封装核心数据和功能，它独立于特定的输出表示和输入行为，是执行某些任务的代码，至于这些任务以什么形式显示给用户，并不是模型所关注的问题。模型只有纯粹的功能性接口，也就是一系列的公开方法，这些方法有的是取值方法，让系统其它部分可以得到模型的内部状态，有的则是置值方法，允许系统的其它部分修改模型的内部状态。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;视图&lt;/strong&gt;用来向用户显示信息，它获得来自模型的数据，决定模型以什么样的方式展示给用户。同一个模型可以对应于多个视图，这样对于视图而言，模型就是可重用的代码。一般来说，模型内部必须保留所有对应视图的相关信息，以便在模型的状态发生改变时，可以通知所有的视图进行更新。&lt;/p&gt;
+&lt;p&gt;控制器是和视图联合使用的，它捕捉鼠标移动、鼠标点击和键盘输入等事件，将其转化成服务请求，然后再传给模型或者视图。整个软件的用户是通过控制器来与系统交互的，他通过控制器来操纵模型，从而向模型传递数据，改变模型的状态，并最后导致视图的更新。&lt;/p&gt;
+&lt;p&gt;MVC设计模式将模型、视图与控制器三个相对独立的部分分隔开来，这样可以改变软件的一个子系统而不至于对其它子系统产生重要影响。例如，在将一个非图形化用户界面软件修改为图形化用户界面软件时，不需要对模型进行修改，而添加一个对新的输入设备的支持，则通常不会对视图产生任何影响。&lt;/p&gt;
+&lt;p&gt;应用了MVC设计模式的软件系统，其基本的实现过程是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;控制器创建模型；&lt;/li&gt;
+&lt;li&gt;控制器创建一个或多个视图，并将它们与模型相关联；&lt;/li&gt;
+&lt;li&gt;控制器负责改变模型的状态；&lt;/li&gt;
+&lt;li&gt;当模型的状态发生改变时，模型会通知与之相关的视图进行更新。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;三.python与设计模式&lt;/h2&gt;
+&lt;p&gt;尽管设计模式的目标是努力做到与语言的无关性，但事实上许多模式在应用时还是需要依赖于具体实现语言的某些特性，尤其是该语言的对象模型。由于《设计模式》一书采用的是C++和Smalltalk来讲述设计模式，因此访问控制符和静态成员方法（类方法）等都可以直接使用，可惜的是这些特性在Python中都无法用到，原因是Python采了与C++完全不同的对象模式。&lt;/p&gt;
+&lt;p&gt;从面向对象角度来看，Python和Smalltalk一样都采用了完全的面向对象设计思想，其对象模型能够支持诸如运算符重载、多重继承等高级概念。但Python在设计时似乎忽略了面向对象的一项基本原则，那就是&lt;strong&gt;&lt;em&gt;数据隐藏&lt;/em&gt;&lt;/strong&gt;。与C++和Java不同，Python没有为类定义提供public、protected和private等关键字，这就意味着任何人都可以直接修改对象的属性。Python之所以这么做，也许是为了保证语法上的简洁性，就像Python的发明人Guido van Rossum所认为的那样："丰富的语法带来的负担多于帮助"。但在某些设计模式中，向外界隐藏数据和方法都是非常必要的，为此我们不得不利用Python对象模型提供的某些高级特性，来实现某种程度上的隐藏性。&lt;/p&gt;
+&lt;p&gt;在Python中应用设计模式的一个有利因素是它的动态类型绑定，也就是说一个对象很少只是一个类的实例，而是可以在运行时动态改变。在面向对象系统中，接口是一个基本的组成部分，对象只有通过它们的接口才能与外界进行交互。对象的接口与其功能是完全分离的，支持相同请求的不同对象针对同一请求所触发的操作可能完全不同，这就是动态绑定的概念。动态绑定虽然看起来在一定程度上使得代码不同那么容易理解和维护，但它的确可以使整个软件系统的结构显得更加清晰和合理。&lt;/p&gt;
+&lt;h2&gt;四.Python对象模型&lt;/h2&gt;
+&lt;p&gt;对于一门具体的编程语言而言，在应用设计模式时影响最大的莫过于它的对象模型了。要想在python中复用这些用c++设计的设计模式，首先需要对python的对象模型有清晰的了解。&lt;/p&gt;
+&lt;h3&gt;4.1 类&lt;/h3&gt;
+&lt;p&gt;Python中的类也是一种用户自定义的数据类型，其基本的语法格式是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Classname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;superclass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;   &lt;span class="c"&gt;#定义类&lt;/span&gt;
+    &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;                   &lt;span class="c"&gt;#共享的类变量&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;method&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;          &lt;span class="c"&gt;#类中的方法&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;member&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;        &lt;span class="c"&gt;#实例的数据&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;类定义从关键字class开始，并包含整个缩进代码块，类中定义的方法和属性构成了类的名字空间（name space）。一个类通常会有多个方法，它们都以关键字def开头，并且第一个参数通常都是self，Python中的变量self相当于C++中的关键字this，其作用是传递一个对象的引用。&lt;/p&gt;
+&lt;p&gt;Python中的类属性位于类的名字空间中，可以被所有的类实例所共享，这一点同C++和Java相同。访问类属性时不需要事先创建类的实例，直接使用类名就可以了。例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Friend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;default_age&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Friend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_age&lt;/span&gt;
+&lt;span class="mi"&gt;22&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;除了自定义的类属性外，Python中的每个类还具有一些特殊的类属性，它们都是由Python的对象模型所提供的。下表列出了这些类属性：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;__dict__&lt;/span&gt;     &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;    &lt;span class="err"&gt;类名字空间的字典变量&lt;/span&gt;
+&lt;span class="n"&gt;__doc__&lt;/span&gt;      &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;    &lt;span class="err"&gt;类的文档说明字符串&lt;/span&gt;
+&lt;span class="n"&gt;__name__&lt;/span&gt;     &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;    &lt;span class="err"&gt;类的名称&lt;/span&gt;
+&lt;span class="n"&gt;__module__&lt;/span&gt;   &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;    &lt;span class="err"&gt;类的模块名&lt;/span&gt;
+&lt;span class="n"&gt;__bases__&lt;/span&gt;    &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;    &lt;span class="err"&gt;该类所有父类组成的元组&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;4.2 实例&lt;/h3&gt;
+&lt;p&gt;定义类的目的是为了创建它的实例，从面向对象的角度看，类是对数据及其相关操作的封装，而类实例则是对现实生活中某个实体的抽象。假设定义了如下一个类：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;School&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;students&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+        &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;addStudent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;student&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;students&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;student&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;要创建School类的一个实例，可以执行下面的语句：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;qhua&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;School&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Beijing Tsinghua University&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在C++和Java中创建类实例时，与类具有相同名称的构造函数被调用，而在Python中创建一个类的实例时，将调用名为__init__的特殊方法。Python中的类实例继承了类的所有方法和属性，并且有自己独立的名字空间，使用下面的方法可以访问类实例的方法和属性：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;qhua&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;addStudent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;gary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;qhua&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;students&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Python中的对象属性有一个非常有趣的地方，那就是使用它们之前不用像C++和Java那样，必须先在类中进行声明，因为这些都是可以动态创建的。作为一门动态类型语言，Python的这一特性的确非常灵活，但有时也难免产生问题。例如在许多针对接口的设计模式中，通常都需要知道对象所属的类，以便能够调用不同的实现方法，这些在C++和Java这些强类型语言的对象模型中不难实现，但对Python来讲可就不那么简单了，因为Python中的每个变量事实上都没有固定的类型。&lt;/p&gt;
+&lt;p&gt;为了解决这一问题，Python的__builtin__模块提供了两个非常实用的内建函数：isinstance()和issubclass()。其中函数isinstance()用于测试一个对象是否是某个类的实例，如果是的话则返回1，否则返回0。其基本的语法格式是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;isinstance&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;instance_object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;class_object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Test&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;inst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Test&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;Test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;而函数issubclass()则用于测试一个类是否是另一个类的子类，如果是的话则返回1，否则返回0。其基本的语法格式是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;issubclass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;classobj1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;classobj2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestB&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestA&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;issubclass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TestB&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;issubclass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TestB&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TestA&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;和类一样，Python中的每个类实例也具有一些特殊的属性，它们都是由Python的对象模型所提供的。特殊类的属性:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;__dict__&lt;/span&gt;     &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="err"&gt;实例名字空间的字典变量&lt;/span&gt;
+&lt;span class="n"&gt;__class__&lt;/span&gt;    &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="err"&gt;生成该实例的类&lt;/span&gt;
+&lt;span class="n"&gt;__methods__&lt;/span&gt;  &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt; &lt;span class="err"&gt;实例所有方法的列表&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;4.3 继承&lt;/h3&gt;
+&lt;p&gt;在面向对象的程序设计中，继承（Inheritance）允许子类从父类那里获得属性和方法，同时子类可以添加或者重载其父类中的任何方法。在Python中定义继承类的语法格式是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nc"&gt;name&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;superclass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;superclass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;suit&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;例如，对于下面的类：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Employee&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;salary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;salary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;salary&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;raiseSalaay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;percent&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;salary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;salary&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;percent&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;writes computer code&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;可以定义下面的子类：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Designer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Employee&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;Employee&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;work&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;writes design document&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在C++和Java的对象模型中，子类的构造函数会自动调用父类的构造函数，但在Python中却不是这样，你必须在子类中显示调用父类的构造函数，这就是为什么在Designer. __init__方法中必须调用Employee.__init__方法的原因。&lt;/p&gt;
+&lt;p&gt;人们对多重继承的看法一直褒贬不一，C++对象模型允许多重继承，而Java对象模型则是通过接口（Interface）来间接实现多重继承的。在对多重继承的处理上，Python采用了和C++类似的方法，即允许多重继承，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;A&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;B&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;C&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;D&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;4.4 多态&lt;/h3&gt;
+&lt;p&gt;严格说来，像C++和Java这些强类型语言对象模型中的多态概念并不适用于Python，因为Python没有提供类型声明机制。但由于Python本身是一种动态类型语言，允许将任意值赋给任何一个变量，如果我们对多态的概念稍加扩充，将其理解为具有能同时处理多种数据类型的函数或方法，那么Python对象模型实际上也支持经过弱化后的多态。&lt;/p&gt;
+&lt;p&gt;Python直到代码运行之时才去决定一个变量所属的类型，这一特性称为运行时绑定（runtime binding）。Python解析器内部虽然也对变量进行类型分配，但却十分模糊，并且只有在真正使用它们时才隐式地分配类型。例如，如果程序调用abs(num)，则除数字之外的任何类型对变量num都没有意义，此时变量num事实上就进行了非正式的类型分配。&lt;/p&gt;
+&lt;p&gt;能够处理不同抽象层次的对象，是面向对象编程最重要的特性之一，也是Python的一个非常重要的组成部分。下面的例子示范了如何让Python中的一个函数能够同时处理多种类型的数据，在C++的对象模型中，这种多态被称为方法重载。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Polymorph&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;deal_int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt; is an integer&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;deal_str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; is a string&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;deal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deal_int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deal_str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; is not an integer or a string&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样，Polymorph类中的方法deal就可以同时处理数字和字符串了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Polymorph&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;deal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello World!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="n"&gt;World&lt;/span&gt;&lt;span class="err"&gt;!&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;4.5 可见性&lt;/h3&gt;
+&lt;p&gt;Python对象模型对可见性的处理与C++和Java完全不同。在C++和Java中，如果属性或者方法被声明为private，那就意味着它们只能在类中被访问，而如果被声明为protected，则只有该类或者其子类中的代码能够访问这些属性和方法。但在Python对象模型中，所有属性和方法都是public的，也就是说数据没有做相应的保护，你可以在任何地方对它们进行任意的修改。&lt;/p&gt;
+&lt;p&gt;能够对可见性进行约束是面向对象编程的一个重要特点，其目的是使对象具有优良的封装性：对象仅仅向外界提供访问接口，而内部实现细节则被很好地隐藏起来。奇怪的是作为一门面向对象脚本语言，Python并没有提供对可见性进行约束的机制，所有属性和方法对任何人都是可见的，任何人想知道对象的内部实现细节都是可能的。虽然这样做能够带来部分效率上的优化，但却无法阻止其它程序员对已经封装好的类进行破坏，从某种程度上这不得不说是Python带给我们的一丝的缺憾。&lt;/p&gt;
+&lt;p&gt;引入了名字压缩（name mangling）的概念，使得类中的一些属性得以局部化。在进行定义类时，如果一个属性的名称是以两个下划线开始，同时又不是以下划线结束的，那么它在编译时将自动地被改写为类名加上属性名。例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Greeting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;__data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hello World!&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;Greeting&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Greeting&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hello Gary!&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;dir&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;_Greeting__data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__doc__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__init__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__module__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;从上面的显示结果可以看出，Greeting类的属性__data变成了_Greeting__data。虽然这样仍然无法阻止外界对它的访问，但的确使得访问变得不再那么直接了，从而在一定程序上保护了类中的数据不被外界破坏。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;可见性这一部分需要重新看下，这是1.5版本时的定义。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;五.在Python中应用设计模式&lt;/h2&gt;
+&lt;p&gt;《设计模式》一书总结了23个模式，依据各自的目的又被分为创建型模式（creational pattern）、结构型模式（structural pattern）和行为型模式（behavioral patterns），它们分别从对象的创建，对象和对象间的结构关系以及对象之间如何交互这三个方面入手，对面向对象系统建模方法给予了解释和指导。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;创建型模式&lt;/strong&gt;描述怎样创建一个对象，以及如何隐藏对象创建的细节，从而使得程序代码不依赖于具体的对象，这样在增加一个新的对象时对代码的改动非常小。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;结构型模式&lt;/strong&gt;描述类和对象之间如何进行有效的组织，形成良好的软件体系结构，主要的方法是使用继承关系来组织各个类。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;行为型模式&lt;/strong&gt;描述类或对象之间如何交互以及如何分配职责，实际上它所牵涉的不仅仅是类或对象的设计模式，还有它们之间的通讯模式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果想在Python中灵活地运行这些设计模式，可以遵循下面的几个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;接受设计模式&lt;/li&gt;
+&lt;li&gt;识别设计模式&lt;/li&gt;
+&lt;li&gt;运用设计模式&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;首先，你应该认识到设计模式的确能够改善你所设计的软件。其次，你必须仔细研究每一种设计模式，学习如何在Python中应用这些模式，以便在今后需要时能够用到它们。最后，你要努力做到对各个设计模式都有非常清晰的认识，最好能够形成自己的独到见解，清楚哪个模式能够解决哪个设计上的问题，并将它们真正应用到你用Python开发的软件中去。所有的设计模式都来源于实践，最终也将付诸于实践，只有通过实践中你才可能掌握每个模式的精髓所在。&lt;/p&gt;</summary></entry></feed>

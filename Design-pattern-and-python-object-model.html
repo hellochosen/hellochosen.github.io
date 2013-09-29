@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Design pattern and python object model</title>
+  <meta name="author" content="squarey">
+
+    
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="http://hellochosen.github.io/favicon.png" rel="icon">
+  <link href="http://hellochosen.github.io/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  <script src="http://hellochosen.github.io/theme/js/modernizr-2.0.js"></script>
+  <script src="http://hellochosen.github.io/theme/js/ender.js"></script>
+  <script src="http://hellochosen.github.io/theme/js/octopress.js" type="text/javascript"></script>
+
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="http://hellochosen.github.io/">squarey's blog</a></h1>
+  </hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://hellochosen.github.io/" rel="subscribe-rss">RSS</a></li>
+  </ul>
+
+<!-- TODO: add search here
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:http://hellochosen.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+-->
+
+<ul class="main-navigation">
+              <li><a href="http://hellochosen.github.io/pages/about-me.html">About Me</a></li>
+        <!-- TODO: add categories here? -->
+  </ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+  <article class="hentry" role="article">
+    <header>
+          <h1 class="entry-title">Design pattern and python object model</h1>
+          <p class="meta"><time datetime="2013-09-29T00:00:00" pubdate>Sun 29 September 2013</time></p>
+</header>
+
+  <div class="entry-content"><h2>一.什么是设计模式</h2>
+<p>设计模式使得人们可以更加简单和方便地去复用成功的软件设计和体系架构，从而能够帮助设计者更快更好地完成系统设计。</p>
+<p>设计模式的概念最早源于建筑设计大师，Christopher Alexander关于城市规划和建筑设计的著作《建筑的永恒方法》，Alexander是这样描述模式的：</p>
+<div class="highlight"><pre><span class="err">模式是一条由三部分组成的规则，它表示了一个特定环境，一个问题和一个解决方案之间的关系。每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，你就能一次次地使用该方案而不必做重复劳动。</span>
+</pre></div>
+
+
+<p>将设计模式引入软件设计和开发过程的目的在与充分利用已有的软件开发经验，这是因为设计模式通常是对于某一类软件设计问题的可重用的解决方案。</p>
+<p>在软件设计领域中，每一个设计模式都系统地命名、解释和评价了面向对象系统中的一个重要的和可复用的设计。</p>
+<h2>二.经典的设计模式MVC</h2>
+<p>源于Smalltalk，并在java中得到广泛应用的模型-视图-控制器（Model-View-Controller,MVC）模式，是一个非常经典的设计模式。</p>
+<p>MVC模式通常用在开发人机交互软件的时候，这类软件的最大特点就时用户界面容易改变，例如，当你要扩展一个应用程序的功能时，通常需要修改菜单来反映这种变化。如果用户界面和核心功能紧紧交织在一起，要建立这样一个灵活的系统通常是非常困难的，因为很容易产生错误。为了更好地开发这样的软件系统，系统设计师必须考虑下面两个因素：</p>
+<ul>
+<li>用户界面应该是易于改变的，甚至在运行期间也是有可能改变的；</li>
+<li>用户界面的修改或移植不会影响软件的核心功能代码。</li>
+</ul>
+<p>为了解决这个问题，可以采用将<strong>模型</strong>（Model）、<strong>视图</strong>(View)和<strong>控制器</strong>(Controller)相分离的思想。</p>
+<p>在这种设计模式中，<strong>模型</strong>用来封装核心数据和功能，它独立于特定的输出表示和输入行为，是执行某些任务的代码，至于这些任务以什么形式显示给用户，并不是模型所关注的问题。模型只有纯粹的功能性接口，也就是一系列的公开方法，这些方法有的是取值方法，让系统其它部分可以得到模型的内部状态，有的则是置值方法，允许系统的其它部分修改模型的内部状态。</p>
+<p><strong>视图</strong>用来向用户显示信息，它获得来自模型的数据，决定模型以什么样的方式展示给用户。同一个模型可以对应于多个视图，这样对于视图而言，模型就是可重用的代码。一般来说，模型内部必须保留所有对应视图的相关信息，以便在模型的状态发生改变时，可以通知所有的视图进行更新。</p>
+<p>控制器是和视图联合使用的，它捕捉鼠标移动、鼠标点击和键盘输入等事件，将其转化成服务请求，然后再传给模型或者视图。整个软件的用户是通过控制器来与系统交互的，他通过控制器来操纵模型，从而向模型传递数据，改变模型的状态，并最后导致视图的更新。</p>
+<p>MVC设计模式将模型、视图与控制器三个相对独立的部分分隔开来，这样可以改变软件的一个子系统而不至于对其它子系统产生重要影响。例如，在将一个非图形化用户界面软件修改为图形化用户界面软件时，不需要对模型进行修改，而添加一个对新的输入设备的支持，则通常不会对视图产生任何影响。</p>
+<p>应用了MVC设计模式的软件系统，其基本的实现过程是：</p>
+<ol>
+<li>控制器创建模型；</li>
+<li>控制器创建一个或多个视图，并将它们与模型相关联；</li>
+<li>控制器负责改变模型的状态；</li>
+<li>当模型的状态发生改变时，模型会通知与之相关的视图进行更新。</li>
+</ol>
+<h2>三.python与设计模式</h2>
+<p>尽管设计模式的目标是努力做到与语言的无关性，但事实上许多模式在应用时还是需要依赖于具体实现语言的某些特性，尤其是该语言的对象模型。由于《设计模式》一书采用的是C++和Smalltalk来讲述设计模式，因此访问控制符和静态成员方法（类方法）等都可以直接使用，可惜的是这些特性在Python中都无法用到，原因是Python采了与C++完全不同的对象模式。</p>
+<p>从面向对象角度来看，Python和Smalltalk一样都采用了完全的面向对象设计思想，其对象模型能够支持诸如运算符重载、多重继承等高级概念。但Python在设计时似乎忽略了面向对象的一项基本原则，那就是<strong><em>数据隐藏</em></strong>。与C++和Java不同，Python没有为类定义提供public、protected和private等关键字，这就意味着任何人都可以直接修改对象的属性。Python之所以这么做，也许是为了保证语法上的简洁性，就像Python的发明人Guido van Rossum所认为的那样："丰富的语法带来的负担多于帮助"。但在某些设计模式中，向外界隐藏数据和方法都是非常必要的，为此我们不得不利用Python对象模型提供的某些高级特性，来实现某种程度上的隐藏性。</p>
+<p>在Python中应用设计模式的一个有利因素是它的动态类型绑定，也就是说一个对象很少只是一个类的实例，而是可以在运行时动态改变。在面向对象系统中，接口是一个基本的组成部分，对象只有通过它们的接口才能与外界进行交互。对象的接口与其功能是完全分离的，支持相同请求的不同对象针对同一请求所触发的操作可能完全不同，这就是动态绑定的概念。动态绑定虽然看起来在一定程度上使得代码不同那么容易理解和维护，但它的确可以使整个软件系统的结构显得更加清晰和合理。</p>
+<h2>四.Python对象模型</h2>
+<p>对于一门具体的编程语言而言，在应用设计模式时影响最大的莫过于它的对象模型了。要想在python中复用这些用c++设计的设计模式，首先需要对python的对象模型有清晰的了解。</p>
+<h3>4.1 类</h3>
+<p>Python中的类也是一种用户自定义的数据类型，其基本的语法格式是：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Classname</span><span class="p">(</span><span class="n">superclass</span><span class="p">,</span><span class="o">...</span><span class="p">):</span>   <span class="c">#定义类</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">value</span>                   <span class="c">#共享的类变量</span>
+    <span class="k">def</span> <span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">...</span><span class="p">):</span>          <span class="c">#类中的方法</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">member</span> <span class="o">=</span> <span class="n">value</span>        <span class="c">#实例的数据</span>
+</pre></div>
+
+
+<p>类定义从关键字class开始，并包含整个缩进代码块，类中定义的方法和属性构成了类的名字空间（name space）。一个类通常会有多个方法，它们都以关键字def开头，并且第一个参数通常都是self，Python中的变量self相当于C++中的关键字this，其作用是传递一个对象的引用。</p>
+<p>Python中的类属性位于类的名字空间中，可以被所有的类实例所共享，这一点同C++和Java相同。访问类属性时不需要事先创建类的实例，直接使用类名就可以了。例如：</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Friend</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">default_age</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Friend</span><span class="o">.</span><span class="n">default_age</span>
+<span class="mi">22</span>
+</pre></div>
+
+
+<p>除了自定义的类属性外，Python中的每个类还具有一些特殊的类属性，它们都是由Python的对象模型所提供的。下表列出了这些类属性：</p>
+<div class="highlight"><pre><span class="n">__dict__</span>     <span class="o">--&gt;</span>    <span class="err">类名字空间的字典变量</span>
+<span class="n">__doc__</span>      <span class="o">--&gt;</span>    <span class="err">类的文档说明字符串</span>
+<span class="n">__name__</span>     <span class="o">--&gt;</span>    <span class="err">类的名称</span>
+<span class="n">__module__</span>   <span class="o">--&gt;</span>    <span class="err">类的模块名</span>
+<span class="n">__bases__</span>    <span class="o">--&gt;</span>    <span class="err">该类所有父类组成的元组</span>
+</pre></div>
+
+
+<h3>4.2 实例</h3>
+<p>定义类的目的是为了创建它的实例，从面向对象的角度看，类是对数据及其相关操作的封装，而类实例则是对现实生活中某个实体的抽象。假设定义了如下一个类：</p>
+<div class="highlight"><pre>    <span class="k">class</span> <span class="nc">School</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">students</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span> <span class="nf">addStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">student</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">students</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
+</pre></div>
+
+
+<p>要创建School类的一个实例，可以执行下面的语句：</p>
+<div class="highlight"><pre><span class="n">qhua</span> <span class="o">=</span> <span class="n">School</span><span class="p">(</span><span class="s">&quot;Beijing Tsinghua University&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>在C++和Java中创建类实例时，与类具有相同名称的构造函数被调用，而在Python中创建一个类的实例时，将调用名为__init__的特殊方法。Python中的类实例继承了类的所有方法和属性，并且有自己独立的名字空间，使用下面的方法可以访问类实例的方法和属性：</p>
+<div class="highlight"><pre><span class="n">qhua</span><span class="o">.</span><span class="n">addStudent</span><span class="p">(</span><span class="s">&quot;gary&quot;</span><span class="p">)</span>
+<span class="n">qhua</span><span class="o">.</span><span class="n">students</span>
+</pre></div>
+
+
+<p>Python中的对象属性有一个非常有趣的地方，那就是使用它们之前不用像C++和Java那样，必须先在类中进行声明，因为这些都是可以动态创建的。作为一门动态类型语言，Python的这一特性的确非常灵活，但有时也难免产生问题。例如在许多针对接口的设计模式中，通常都需要知道对象所属的类，以便能够调用不同的实现方法，这些在C++和Java这些强类型语言的对象模型中不难实现，但对Python来讲可就不那么简单了，因为Python中的每个变量事实上都没有固定的类型。</p>
+<p>为了解决这一问题，Python的__builtin__模块提供了两个非常实用的内建函数：isinstance()和issubclass()。其中函数isinstance()用于测试一个对象是否是某个类的实例，如果是的话则返回1，否则返回0。其基本的语法格式是：</p>
+<div class="highlight"><pre><span class="nb">isinstance</span> <span class="p">(</span><span class="n">instance_object</span><span class="p">,</span> <span class="n">class_object</span><span class="p">)</span>
+</pre></div>
+
+
+<p>例如：</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">inst</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span><span class="n">Test</span><span class="p">)</span>
+<span class="mi">1</span>
+</pre></div>
+
+
+<p>而函数issubclass()则用于测试一个类是否是另一个类的子类，如果是的话则返回1，否则返回0。其基本的语法格式是：</p>
+<div class="highlight"><pre><span class="nb">issubclass</span><span class="p">(</span><span class="n">classobj1</span><span class="p">,</span> <span class="n">classobj2</span><span class="p">)</span>
+</pre></div>
+
+
+<p>例如：</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">TestA</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">TestB</span><span class="p">(</span><span class="n">TestA</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">TestA</span><span class="p">,</span> <span class="n">TestB</span><span class="p">)</span>
+<span class="mi">0</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">TestB</span><span class="p">,</span> <span class="n">TestA</span><span class="p">)</span>
+<span class="mi">1</span>
+</pre></div>
+
+
+<p>和类一样，Python中的每个类实例也具有一些特殊的属性，它们都是由Python的对象模型所提供的。特殊类的属性:</p>
+<div class="highlight"><pre><span class="n">__dict__</span>     <span class="o">--&gt;</span> <span class="err">实例名字空间的字典变量</span>
+<span class="n">__class__</span>    <span class="o">--&gt;</span> <span class="err">生成该实例的类</span>
+<span class="n">__methods__</span>  <span class="o">--&gt;</span> <span class="err">实例所有方法的列表</span>
+</pre></div>
+
+
+<h3>4.3 继承</h3>
+<p>在面向对象的程序设计中，继承（Inheritance）允许子类从父类那里获得属性和方法，同时子类可以添加或者重载其父类中的任何方法。在Python中定义继承类的语法格式是：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="err">&lt;</span><span class="nc">name</span><span class="o">&gt;</span><span class="p">(</span><span class="n">superclass</span><span class="p">,</span> <span class="n">superclass</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">suit</span>
+</pre></div>
+
+
+<p>例如，对于下面的类：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">salary</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">salary</span> <span class="o">=</span> <span class="n">salary</span>
+    <span class="k">def</span> <span class="nf">raiseSalaay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">percent</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">salary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">salary</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">percent</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">work</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">,</span> <span class="s">&quot;writes computer code&quot;</span>
+</pre></div>
+
+
+<p>可以定义下面的子类：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Designer</span><span class="p">(</span><span class="n">Employee</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">Employee</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">work</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">,</span> <span class="s">&quot;writes design document&quot;</span>
+</pre></div>
+
+
+<p>在C++和Java的对象模型中，子类的构造函数会自动调用父类的构造函数，但在Python中却不是这样，你必须在子类中显示调用父类的构造函数，这就是为什么在Designer. __init__方法中必须调用Employee.__init__方法的原因。</p>
+<p>人们对多重继承的看法一直褒贬不一，C++对象模型允许多重继承，而Java对象模型则是通过接口（Interface）来间接实现多重继承的。在对多重继承的处理上，Python采用了和C++类似的方法，即允许多重继承，例如：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">C</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">B</span><span class="p">,</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+
+
+<h3>4.4 多态</h3>
+<p>严格说来，像C++和Java这些强类型语言对象模型中的多态概念并不适用于Python，因为Python没有提供类型声明机制。但由于Python本身是一种动态类型语言，允许将任意值赋给任何一个变量，如果我们对多态的概念稍加扩充，将其理解为具有能同时处理多种数据类型的函数或方法，那么Python对象模型实际上也支持经过弱化后的多态。</p>
+<p>Python直到代码运行之时才去决定一个变量所属的类型，这一特性称为运行时绑定（runtime binding）。Python解析器内部虽然也对变量进行类型分配，但却十分模糊，并且只有在真正使用它们时才隐式地分配类型。例如，如果程序调用abs(num)，则除数字之外的任何类型对变量num都没有意义，此时变量num事实上就进行了非正式的类型分配。</p>
+<p>能够处理不同抽象层次的对象，是面向对象编程最重要的特性之一，也是Python的一个非常重要的组成部分。下面的例子示范了如何让Python中的一个函数能够同时处理多种类型的数据，在C++的对象模型中，这种多态被称为方法重载。</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Polymorph</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">deal_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="si">%d</span><span class="s"> is an integer&#39;</span> <span class="o">%</span> <span class="n">arg</span>
+    <span class="k">def</span> <span class="nf">deal_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is a string&#39;</span> <span class="o">%</span> <span class="n">arg</span>
+    <span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deal_int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deal_str</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not an integer or a string&#39;</span> <span class="o">%</span> <span class="n">arg</span>
+</pre></div>
+
+
+<p>这样，Polymorph类中的方法deal就可以同时处理数字和字符串了：</p>
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Polymorph</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">deal</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="mi">100</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">integer</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">deal</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+<span class="n">Hello</span> <span class="n">World</span><span class="err">!</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">string</span>
+</pre></div>
+
+
+<h3>4.5 可见性</h3>
+<p>Python对象模型对可见性的处理与C++和Java完全不同。在C++和Java中，如果属性或者方法被声明为private，那就意味着它们只能在类中被访问，而如果被声明为protected，则只有该类或者其子类中的代码能够访问这些属性和方法。但在Python对象模型中，所有属性和方法都是public的，也就是说数据没有做相应的保护，你可以在任何地方对它们进行任意的修改。</p>
+<p>能够对可见性进行约束是面向对象编程的一个重要特点，其目的是使对象具有优良的封装性：对象仅仅向外界提供访问接口，而内部实现细节则被很好地隐藏起来。奇怪的是作为一门面向对象脚本语言，Python并没有提供对可见性进行约束的机制，所有属性和方法对任何人都是可见的，任何人想知道对象的内部实现细节都是可能的。虽然这样做能够带来部分效率上的优化，但却无法阻止其它程序员对已经封装好的类进行破坏，从某种程度上这不得不说是Python带给我们的一丝的缺憾。</p>
+<p>引入了名字压缩（name mangling）的概念，使得类中的一些属性得以局部化。在进行定义类时，如果一个属性的名称是以两个下划线开始，同时又不是以下划线结束的，那么它在编译时将自动地被改写为类名加上属性名。例如：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Greeting</span><span class="p">:</span>
+    <span class="n">__data</span> <span class="o">=</span> <span class="s">&quot;Hello World!&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">Greeting</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">Greeting</span><span class="p">(</span><span class="s">&quot;Hello Gary!&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">dir</span> <span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="p">[</span><span class="s">&#39;_Greeting__data&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<p>从上面的显示结果可以看出，Greeting类的属性__data变成了_Greeting__data。虽然这样仍然无法阻止外界对它的访问，但的确使得访问变得不再那么直接了，从而在一定程序上保护了类中的数据不被外界破坏。</p>
+<p><strong>可见性这一部分需要重新看下，这是1.5版本时的定义。</strong></p>
+<h2>五.在Python中应用设计模式</h2>
+<p>《设计模式》一书总结了23个模式，依据各自的目的又被分为创建型模式（creational pattern）、结构型模式（structural pattern）和行为型模式（behavioral patterns），它们分别从对象的创建，对象和对象间的结构关系以及对象之间如何交互这三个方面入手，对面向对象系统建模方法给予了解释和指导。</p>
+<ul>
+<li><strong>创建型模式</strong>描述怎样创建一个对象，以及如何隐藏对象创建的细节，从而使得程序代码不依赖于具体的对象，这样在增加一个新的对象时对代码的改动非常小。</li>
+<li><strong>结构型模式</strong>描述类和对象之间如何进行有效的组织，形成良好的软件体系结构，主要的方法是使用继承关系来组织各个类。</li>
+<li><strong>行为型模式</strong>描述类或对象之间如何交互以及如何分配职责，实际上它所牵涉的不仅仅是类或对象的设计模式，还有它们之间的通讯模式。</li>
+</ul>
+<p>如果想在Python中灵活地运行这些设计模式，可以遵循下面的几个步骤：</p>
+<ol>
+<li>接受设计模式</li>
+<li>识别设计模式</li>
+<li>运用设计模式</li>
+</ol>
+<p>首先，你应该认识到设计模式的确能够改善你所设计的软件。其次，你必须仔细研究每一种设计模式，学习如何在Python中应用这些模式，以便在今后需要时能够用到它们。最后，你要努力做到对各个设计模式都有非常清晰的认识，最好能够形成自己的独到见解，清楚哪个模式能够解决哪个设计上的问题，并将它们真正应用到你用Python开发的软件中去。所有的设计模式都来源于实践，最终也将付诸于实践，只有通过实践中你才可能掌握每个模式的精髓所在。</p></div>
+    <footer>
+      <p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">squarey</span>
+  </span>
+  <time datetime="2013-09-29T00:00:00" pubdate>Sun 29 September 2013</time>  </p>    </footer>
+  </article>
+
+    <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+  </div>
+      <aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+            <li class="post">
+          <a href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html">Design pattern and python object model</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/Using-github-and-pelican-build-blog.html">Using github and pelican build blog</a>
+      </li>
+          </ul>
+  </section>
+    <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+              <li><a href="http://hellochosen.github.io/category/tool.html">Tool</a></li>
+              <li><a href="http://hellochosen.github.io/category/cc.html">c/c++</a></li>
+              <li><a href="http://hellochosen.github.io/category/software.html">software</a></li>
+          </ul>
+  </section>
+   
+
+  <section>
+  <h1>Tags</h1>
+    </section>
+
+    
+    <section>
+        <h1>Social</h2>
+        <ul>
+            <li><a href="http://hellochosen.github.io/" type="application/rss+xml" rel="alternate">RSS</a></li>
+                    <li><a href="https://delicious.com/squarey" target="_blank">delicious</a></li>
+                </ul>
+    </section>
+      <section>
+        <h1>Blogroll</h2>
+        <ul>
+                    <li><a href="http://xthink.me/" target="_blank">orient</a></li>
+                </ul>
+    </section>
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - squarey -
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  	<script type="text/javascript">
+	  var disqus_shortname = 'hellochosen';
+                var disqus_identifier = '/Design-pattern-and-python-object-model.html';
+          var disqus_url = 'http://hellochosen.github.io/Design-pattern-and-python-object-model.html';
+          var disqus_title = 'Design pattern and python object model';
+      	  (function() {
+	    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	   })();
+	</script>
+</body>
+</html>
