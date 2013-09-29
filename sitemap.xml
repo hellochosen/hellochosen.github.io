@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://hellochosen.github.io/index.html</loc>
-<lastmod>2013-09-29T15:38:55-00:00</lastmod>
+<lastmod>2013-09-29T18:33:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/archives.html</loc>
-<lastmod>2013-09-29T15:38:55-00:00</lastmod>
+<lastmod>2013-09-29T18:33:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/tags.html</loc>
-<lastmod>2013-09-29T15:38:55-00:00</lastmod>
+<lastmod>2013-09-29T18:33:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/categories.html</loc>
-<lastmod>2013-09-29T15:38:55-00:00</lastmod>
+<lastmod>2013-09-29T18:33:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -40,6 +40,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://hellochosen.github.io/Design-pattern-and-python-object-model.html</loc>
+<lastmod>2013-09-29T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>http://hellochosen.github.io/simple-usage-of-regex.html</loc>
 <lastmod>2013-09-29T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
@@ -61,7 +68,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://hellochosen.github.io/category/tool.html</loc>
-<lastmod>2013-09-25T00:00:00-00:00</lastmod>
+<lastmod>2013-09-29T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
