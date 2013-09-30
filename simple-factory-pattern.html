@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>simple factory pattern</title>
+  <meta name="author" content="squarey">
+
+    
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="http://hellochosen.github.io/favicon.png" rel="icon">
+  <link href="http://hellochosen.github.io/theme/css/main.css" media="screen, projection"
+        rel="stylesheet" type="text/css">
+  <script src="http://hellochosen.github.io/theme/js/modernizr-2.0.js"></script>
+  <script src="http://hellochosen.github.io/theme/js/ender.js"></script>
+  <script src="http://hellochosen.github.io/theme/js/octopress.js" type="text/javascript"></script>
+
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic"
+        rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header role="banner"><hgroup>
+  <h1><a href="http://hellochosen.github.io/">squarey's blog</a></h1>
+  </hgroup></header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://hellochosen.github.io/" rel="subscribe-rss">RSS</a></li>
+  </ul>
+
+<!-- TODO: add search here
+<form action="" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:http://hellochosen.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+-->
+
+<ul class="main-navigation">
+              <li><a href="http://hellochosen.github.io/pages/about-me.html">About Me</a></li>
+        <!-- TODO: add categories here? -->
+  </ul></nav>
+  <div id="main">
+    <div id="content">
+      <div>
+  <article class="hentry" role="article">
+    <header>
+          <h1 class="entry-title">simple factory pattern</h1>
+          <p class="meta"><time datetime="2013-09-30T00:00:00" pubdate>Mon 30 September 2013</time></p>
+</header>
+
+  <div class="entry-content"><h2>创建型简单工厂模式</h2>
+<p>简单工厂模式的实质是由一个工厂类根据传入的变量，动态决定应该创建出哪一个产品。factory创建出来的对象都有同样的接口可以被多态调用。</p>
+<h3>一、创建型模式</h3>
+<p>创建型模式（creational pattern）对类的实例化过程进行了抽象，能够使软件模块做到与对象创建和组织的无关性。</p>
+<p>创建型模式根据生成目标的不同，可以分为类的创建型模式和对象的创建型模式2种：</p>
+<ul>
+<li>类的创建型模式</li>
+</ul>
+<p>类的创建型模式通过使用继承关系，将类的创建由具体的子类来完成，这样就向外    界隐藏了如何得到具体类的具体细节，以及这些类的实例是如何被创建和组织在一起的。</p>
+<ul>
+<li>对象的创建型模型</li>
+</ul>
+<p>对象的创建型模型模式通过把对象的创建委托给另一个对象来完成，可以根据语境动  态地决定生成哪些具体类的实例，同时还可以向外界隐藏这些实例是如何被创建以及  如何被组织在一起的细节。</p>
+<p>所有创建型对象有2点最为主要：</p>
+<p>第一，他们将系统使用哪些具体类的信息封装起来；</p>
+<p>第二，他们隐藏了这些类的实例是如何被创建和组织的。</p>
+<p>对于python，假设有这样一个类：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></div>
+
+
+<p>要创建实例，则执行下面语句：</p>
+<div class="highlight"><pre><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&quot;Gary&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>但如果创建对象时完成的工作非常复杂，需要一段很长的代码，你就不能简单地将其全部写入__init__方法中，因为这会违背面向对象思想的两个基本原则：封装（encapsulation）和委派（delegation）。假如执意要做样做，结果只会使你的代码变成一段行为固定的硬编码（hard coding），而整个软件的结构都极有可能变得非常糟糕，因为其它某个模块也许就正依赖于你所创建的这个实例，这样就在无形之间增加了模块之间的耦合度。</p>
+<p>可以将python对象的创建过程封装到某个类中来单独完成。下面6种创建型模式可以很好地改善对象的创建过程：</p>
+<ol>
+<li>Simple Factory</li>
+</ol>
+<p>专门定义一个类来负责创建其它类的实例，被创建的实例通常都具有共同的父类。</p>
+<ol>
+<li>Factory Method </li>
+</ol>
+<p>将对象的创建交由父类中定义的一个标准方法来完成，而不是其构造函数，究竟应    该创建何种对象由具体的子类负责决定。</p>
+<ol>
+<li>Abstract Factory</li>
+</ol>
+<p>提供一个共同的接口来创建相互关联的多个对象。</p>
+<ol>
+<li>Singleton</li>
+</ol>
+<p>保证系统只会产生该类的一个实例，同时还负责向外界提供访问该实例的标准方法</p>
+<ol>
+<li>Builder</li>
+</ol>
+<p>将复杂对象的创建同它们的具体表现形式（representation）区别开来，这样可以    根据需要得到具有不同表现形式的对象。</p>
+<ol>
+<li>Prototype</li>
+</ol>
+<p>利用一个能对自身进行复制的类，使得对象的动态创建变得更加容易。</p>
+<h3>二、模式</h3>
+<p>简单工厂（Simple Factory）模式又称为静态工厂方法（static factory method）模式，属于类的创建型模式。这种模式根据外界给定的信息，由"工厂"对象"制造"出某些可能"产品"类中的一个实例，工厂对象能够处理的所有类通常都继承于同一个父类，并且对外界提供基本相同的接口，只不过在具体实现时会有所差别罢了。</p>
+<p>例如开发一个绘图程序，用来绘制简单的几何图形，这个程序应该能够处理下面的几种几何对象： </p>
+<ul>
+<li>圆形（Circle）</li>
+<li>矩形（Rectangle）</li>
+<li>菱形（Diamond）</li>
+</ul>
+<p>所有几何图形具有的公共方法：绘制（draw）和擦除（erase），因而可以为它们定义一个共同的接口Shape。</p>
+<p>Shape接口定义了所有几何图形都必须实现的公共方法： draw()和erase()，实现该接口的Python代码如下所示，Python中没有接口的概念，因此在具体实现时可以使用类来替代。</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p>Circle类是Shape的一种具体形式，它实现了Shape接口定义的所有方法，此外还添加了一个属性__radius，用来表示圆的半径。以下是实现Circle类的代码：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__radius</span> <span class="o">=</span> <span class="n">radius</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Draw Circle&quot;</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Erase Circle&quot;</span>
+    <span class="k">def</span> <span class="nf">getRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__radius</span>
+    <span class="k">def</span> <span class="nf">setRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">radius</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__radius</span> <span class="o">=</span> <span class="n">radius</span>
+</pre></div>
+
+
+<p>同理Rectangle类的代码如下：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Rectangle</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Draw Rectangle&quot;</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Erase Rectangle&quot;</span>
+    <span class="k">def</span> <span class="nf">getWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__width</span>
+    <span class="k">def</span> <span class="nf">setWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">width</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__width</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="k">def</span> <span class="nf">getHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__height</span>
+    <span class="k">def</span> <span class="nf">setHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__height</span> <span class="o">=</span> <span class="n">height</span>
+</pre></div>
+
+
+<p>Diamond类的实现代码：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Diamond</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__height</span> <span class="o">=</span> <span class="n">height</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Draw Diamond&quot;</span>
+    <span class="k">def</span> <span class="nf">erase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Erase Diamond&quot;</span>
+    <span class="k">def</span> <span class="nf">getWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__width</span>
+    <span class="k">def</span> <span class="nf">setWidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">width</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__width</span> <span class="o">=</span> <span class="n">width</span>
+    <span class="k">def</span> <span class="nf">getHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__height</span>
+    <span class="k">def</span> <span class="nf">setHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__height</span> <span class="o">=</span> <span class="n">height</span>
+</pre></div>
+
+
+<p>所有几何图形类都定义好后，下面要做的就是提供一个"工厂"类ShapeFactory，来创建各种几何图形的具体实例。ShapeFactory类的作用就是根据外界的要求，创建出不同的几何图形对象，如圆形（Circle）、矩形（Rectangle）或菱形（Diamond）.</p>
+<p>ShapeFactory类用于创建各种几何图形的实例，其实现代码如下所示：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">ShapeFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">which</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">which</span> <span class="o">==</span> <span class="s">&quot;Circle&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Circle</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">which</span> <span class="o">==</span> <span class="s">&quot;Rectangle&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Rectangle</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">which</span> <span class="o">==</span> <span class="s">&quot;Diamond&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Diamond</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+</pre></div>
+
+
+<p>在ShapeFactory类中只定义了一个方法factory()，外界通过调用该方法，来创建其所需的几何图形对象，但如果所请求的类是系统所不支持的，则将返回None。在引入了工厂类之后，其它模块如果想生成几何图形类的实例，只需调用ShapeFactory类的factory()方法就可以了：</p>
+<div class="highlight"><pre><span class="n">fac</span> <span class="o">=</span> <span class="n">ShapeFactory</span><span class="p">()</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">factory</span><span class="p">(</span><span class="s">&quot;Diamond&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">shape</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">shape</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+
+
+<p>这样就成功地将类是如何创建的这一实现细节向外界隐藏起来了，这就是简单工厂模式所采取的基本策略。</p>
+<h3>三、一般结构</h3>
+<p>简单工厂模式属于类的创建型模式，适合用来对大量具有共同接口的类进行实例化，它可以推迟到运行的时候才动态决定要创建哪个类的实例，而不是在编译时就必须知道要实例化哪个类。</p>
+<p>简单工厂模式的实质是由一个工厂类根据传入的参量，动态决定应该创建出哪一个产品类的实例。简单工厂模式涉及到工厂角色、抽象产品角色和具体产品角色三个参与者。</p>
+<ul>
+<li>工厂（Creator）角色</li>
+</ul>
+<p>是简单工厂模式的核心，它负责实现创建所有实例的内部逻辑。工厂类可以被外界直  接调用，创建所需的产品对象。</p>
+<ul>
+<li>抽象产品（Product）角色 </li>
+</ul>
+<p>是简单工厂模式所创建的所有对象的父类，它负责描述所有实例所共有的公共接口。</p>
+<ul>
+<li>具体产品（Concrete Product）角色</li>
+</ul>
+<p>是简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例</p>
+<p>工厂角色负责创建一个具体产品的实例，并将其返回给调用者，以下是工厂类的示例性Python代码：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Creator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c">#创建具体产品类的方法</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ConcreteProduct</span><span class="p">()</span>
+</pre></div>
+
+
+<p>抽象产品角色的主要目的是为所有的具体产品提供一个共同的接口，通常只需给出相应的声明就可以了，而不用给出具体的实现。以下是抽象产品类的示例性Python代码：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c">#所有具体产品类的公共接口</span>
+    <span class="k">def</span> <span class="nf">interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+
+
+<p>具体产品角色充当最终的创建目标，一般来讲它是抽象产品类的子类，实现了抽象产品类中定义的所有接口方法。以下是具体产品类的示例性Python代码：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">ConcreteProduct</span><span class="p">(</span><span class="n">Product</span><span class="p">):</span>
+    <span class="c">#公共接口的实现</span>
+    <span class="k">def</span> <span class="nf">interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Concrete Product Method&quot;</span>
+</pre></div>
+
+
+<p>在应用简单工厂模式时，可以采用下面的示例性Python代码：</p>
+<div class="highlight"><pre><span class="n">fac</span> <span class="o">=</span> <span class="n">Creator</span><span class="p">()</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">factory</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">interface</span><span class="p">()</span>
+</pre></div>
+
+
+<p>在这个简单的示意性实现里，充当具体产品角色的类只有一个，但在真正的实际应用中，通常遇到的都是同时有多个具体产品类的情况。</p>
+<h3>4、优势和不足</h3>
+<p>在简单工厂模式中，工厂类是整个模式的关键所在，它包含必要的判断逻辑，能够根据外界给定的信息，决定究竟应该创建哪个具体类的对象。通过使用工厂类，外界可以从直接创建具体产品对象的尴尬局面中摆脱出来，仅仅只需要负责"消费"对象就可以了，而不必管这些对象究竟是如何创建以及如何组织的，这样就清晰了各自的职责和权力，有利于整个软件体系结构的优化。</p>
+<p>简单工厂模式的缺点也正体现在其工厂类上。由于工厂类集中了所有实例的创建逻辑，是一个无所不能的"全能类"（God Class），因此它对整个软件系统是至关重要的，如果这个类无法正常工作，其它部分可能都会受到牵连。</p>
+<p>将全部创建逻辑都集中到一个工厂类中还有另外一个缺点，那就是当系统中的具体产品类不断增多时，可能会出现要求工厂类根据不同条件创建不同实例的需求，这种对条件的判断和对具体产品类型的判断交织在一起，很难避免模块功能的蔓延，对系统的扩展和维护也非常不利。</p>
+<p>Reference:</p>
+<p><a href="http://www.ibm.com/developerworks/cn/linux/l-pypt/part2/index.html">创建型 Simple Factory 模式</a></p></div>
+    <footer>
+      <p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">squarey</span>
+  </span>
+  <time datetime="2013-09-30T00:00:00" pubdate>Mon 30 September 2013</time>  </p>    </footer>
+  </article>
+
+    <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+  </div>
+      <aside class="sidebar">
+  <section>
+    <h1>Recent Posts</h1>
+    <ul id="recent_posts">
+            <li class="post">
+          <a href="http://hellochosen.github.io/simple-factory-pattern.html">simple factory pattern</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html">Design pattern and python object model</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/simple-usage-of-regex.html">正则表达式用法</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/Using-github-and-pelican-build-blog.html">Using github and pelican build blog</a>
+      </li>
+          </ul>
+  </section>
+    <section>
+      
+    <h1>Categories</h1>
+    <ul id="recent_posts">
+              <li><a href="http://hellochosen.github.io/category/tool.html">Tool</a></li>
+              <li><a href="http://hellochosen.github.io/category/cc.html">c/c++</a></li>
+              <li><a href="http://hellochosen.github.io/category/posts.html">posts</a></li>
+              <li><a href="http://hellochosen.github.io/category/software.html">software</a></li>
+          </ul>
+  </section>
+   
+
+  <section>
+  <h1>Tags</h1>
+    </section>
+
+    
+    <section>
+        <h1>Social</h2>
+        <ul>
+            <li><a href="http://hellochosen.github.io/" type="application/rss+xml" rel="alternate">RSS</a></li>
+                    <li><a href="https://delicious.com/squarey" target="_blank">delicious</a></li>
+                </ul>
+    </section>
+      <section>
+        <h1>Blogroll</h2>
+        <ul>
+                    <li><a href="http://xthink.me/" target="_blank">orient</a></li>
+                </ul>
+    </section>
+</aside>    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - squarey -
+  <span class="credit">Powered by <a href="http://getpelican.com">Pelican</a></span>
+</p></footer>
+  	<script type="text/javascript">
+	  var disqus_shortname = 'hellochosen';
+                var disqus_identifier = '/simple-factory-pattern.html';
+          var disqus_url = 'http://hellochosen.github.io/simple-factory-pattern.html';
+          var disqus_title = 'simple factory pattern';
+      	  (function() {
+	    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	   })();
+	</script>
+</body>
+</html>

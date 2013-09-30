@@ -54,20 +54,42 @@
     	  		<article>
     		<header>
           <h1 class="entry-title">
-        <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
+        <a href="http://hellochosen.github.io/simple-factory-pattern.html">simple factory pattern</a>
       </h1>
-          <p class="meta"><time datetime="2013-09-26T00:00:00" pubdate>Thu 26 September 2013</time></p>
+          <p class="meta"><time datetime="2013-09-30T00:00:00" pubdate>Mon 30 September 2013</time></p>
 </header>
 
-  <div class="entry-content"><p>1.using <strong>extern</strong> to Specify Linkage</p>
-<div class="highlight"><pre><span class="k">extern</span> <span class="n">string</span><span class="o">-</span><span class="n">literal</span> <span class="p">{</span> <span class="n">declaration</span><span class="o">-</span><span class="n">list</span> <span class="p">}</span>
-<span class="k">extern</span> <span class="n">string</span><span class="o">-</span><span class="n">literal</span> <span class="n">declaration</span>
+  <div class="entry-content"><h2>创建型简单工厂模式</h2>
+<p>简单工厂模式的实质是由一个工厂类根据传入的变量，动态决定应该创建出哪一个产品。factory创建出来的对象都有同样的接口可以被多态调用。</p>
+<h3>一、创建型模式</h3>
+<p>创建型模式（creational pattern）对类的实例化过程进行了抽象，能够使软件模块做到与对象创建和组织的无关性。</p>
+<p>创建型模式根据生成目标的不同，可以分为类的创建型模式和对象的创建型模式2种：</p>
+<ul>
+<li>类的创建型模式</li>
+</ul>
+<p>类的创建型模式通过使用继承关系，将类的创建由具体的子类来完成，这样就向外    界隐藏了如何得到具体类的具体细节，以及这些类的实例是如何被创建和组织在一起的。</p>
+<ul>
+<li>对象的创建型模型</li>
+</ul>
+<p>对象的创建型模型模式通过把对象的创建委托给另一个对象来完成，可以根据语境动  态地决定生成哪些具体类的实例，同时还可以向外界隐藏这些实例是如何被创建以及  如何被组织在一起的细节。</p>
+<p>所有创建型对象有2点最为主要：</p>
+<p>第一，他们将系统使用哪些具体类的信息封装起来；</p>
+<p>第二，他们隐藏了这些类的实例是如何被创建和组织的。</p>
+<p>对于python，假设有这样一个类：</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre></div>
 
 
-<p>The <strong>extern</strong> keyword declares a variable or function and specifies that it has external linkage (its name is visible from files other than the one in which it is defined). When modifying a variable, <strong>extern ...</strong></p></div>
+<p>要创建实例，则执行下面语句：</p>
+<div class="highlight"><pre><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&quot;Gary&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>但如果创建对象时完成的工作非常复杂，需要一段很长的代码，你就不能简单地将其全部写入__init__方法中 ...</p></div>
   <footer>
-    <a rel="full-article" href="http://hellochosen.github.io/extern-and-extern-c.html">Read On &crarr;</a>
+    <a rel="full-article" href="http://hellochosen.github.io/simple-factory-pattern.html">Read On &crarr;</a>
   </footer>
   		</article>
   	  	<div class="pagination">
@@ -79,7 +101,7 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
             <li class="post">
-          <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
+          <a href="http://hellochosen.github.io/simple-factory-pattern.html">simple factory pattern</a>
       </li>
           </ul>
   </section>
