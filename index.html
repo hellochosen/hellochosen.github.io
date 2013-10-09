@@ -54,102 +54,6 @@
     	  		<article>
     		<header>
           <h1 class="entry-title">
-        <a href="http://hellochosen.github.io/simple-factory-pattern.html">simple factory pattern</a>
-      </h1>
-          <p class="meta"><time datetime="2013-09-30T00:00:00" pubdate>Mon 30 September 2013</time></p>
-</header>
-
-  <div class="entry-content"><h2>创建型简单工厂模式</h2>
-<p>简单工厂模式的实质是由一个工厂类根据传入的变量，动态决定应该创建出哪一个产品。factory创建出来的对象都有同样的接口可以被多态调用。</p>
-<h3>一、创建型模式</h3>
-<p>创建型模式（creational pattern）对类的实例化过程进行了抽象，能够使软件模块做到与对象创建和组织的无关性。</p>
-<p>创建型模式根据生成目标的不同，可以分为类的创建型模式和对象的创建型模式2种：</p>
-<ul>
-<li>类的创建型模式</li>
-</ul>
-<p>类的创建型模式通过使用继承关系，将类的创建由具体的子类来完成，这样就向外    界隐藏了如何得到具体类的具体细节，以及这些类的实例是如何被创建和组织在一起的。</p>
-<ul>
-<li>对象的创建型模型</li>
-</ul>
-<p>对象的创建型模型模式通过把对象的创建委托给另一个对象来完成，可以根据语境动  态地决定生成哪些具体类的实例，同时还可以向外界隐藏这些实例是如何被创建以及  如何被组织在一起的细节。</p>
-<p>所有创建型对象有2点最为主要：</p>
-<p>第一，他们将系统使用哪些具体类的信息封装起来；</p>
-<p>第二，他们隐藏了这些类的实例是如何被创建和组织的。</p>
-<p>对于python，假设有这样一个类：</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</pre></div>
-
-
-<p>要创建实例，则执行下面语句：</p>
-<div class="highlight"><pre><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&quot;Gary&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p>但如果创建对象时完成的工作非常复杂，需要一段很长的代码，你就不能简单地将其全部写入__init__方法中 ...</p></div>
-  <footer>
-    <a rel="full-article" href="http://hellochosen.github.io/simple-factory-pattern.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-  	  		<article>
-    		<header>
-          <h1 class="entry-title">
-        <a href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html">Design pattern and python object model</a>
-      </h1>
-          <p class="meta"><time datetime="2013-09-29T00:00:00" pubdate>Sun 29 September 2013</time></p>
-</header>
-
-  <div class="entry-content"><h2>一.什么是设计模式</h2>
-<p>设计模式使得人们可以更加简单和方便地去复用成功的软件设计和体系架构，从而能够帮助设计者更快更好地完成系统设计。</p>
-<p>设计模式的概念最早源于建筑设计大师，Christopher Alexander关于城市规划和建筑设计的著作《建筑的永恒方法》，Alexander是这样描述模式的：</p>
-<div class="highlight"><pre><span class="err">模式是一条由三部分组成的规则，它表示了一个特定环境，一个问题和一个解决方案之间的关系。每一个模式描述了一个在我们周围不断重复发生的问题，以及该问题的解决方案的核心。这样，你就能一次次地使用该方案而不必做重复劳动。</span>
-</pre></div>
-
-
-<p>将设计模式引入软件设计和开发过程的目的在与充分利用已有的软件开发经验，这是因为设计模式通常是对于某一类软件设计问题的可重用的解决方案。</p>
-<p>在软件设计领域中，每一个设计模式都系统地命名、解释和评价了面向对象系统中的一个重要的和可复用的设计。</p>
-<h2>二.经典的设计模式MVC</h2>
-<p>源于Smalltalk，并在java中得到广泛应用的模型-视图-控制器（Model-View-Controller,MVC）模式，是一个非常经典的设计模式。</p>
-<p>MVC模式通常用在开发人机交互软件的时候，这类软件的最大特点就时用户界面容易改变，例如，当你要扩展一个应用程序的功能时，通常需要修改菜单来反映这种变化。如果用户界面和核心功能紧紧交织在一起，要建立这样一个灵活的系统通常是非常困难的，因为很容易产生错误。为了更好地开发这样的软件系统，系统设计师必须考虑下面两个因素：</p>
-<ul>
-<li>用户界面应该是易于改变的，甚至在运行期间也是有可能改变的；</li>
-<li>用户界面的修改或移植不会影响软件的核心功能代码。</li>
-</ul>
-<p>为了解决这个问题，可以采用将<strong>模型</strong>（Model）、<strong>视图</strong>(View)和<strong>控制器 ...</strong></p></div>
-  <footer>
-    <a rel="full-article" href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-  	  		<article>
-    		<header>
-          <h1 class="entry-title">
-        <a href="http://hellochosen.github.io/simple-usage-of-regex.html">正则表达式用法</a>
-      </h1>
-          <p class="meta"><time datetime="2013-09-29T00:00:00" pubdate>Sun 29 September 2013</time></p>
-</header>
-
-  <div class="entry-content"><p>正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。在很多文本编辑器裡，正則表达式通常被用来检索、替换那些符合某个模式的文本。</p>
-<div class="highlight"><pre><span class="err">符号</span>              <span class="err">匹配</span>
-
-<span class="o">^</span>                   <span class="err">输入字符串开始的位置</span>
-<span class="err">$</span>                   <span class="err">输入字符串结尾的位置</span>
-<span class="err">\</span><span class="n">d</span>                  <span class="err">任意一位数字</span>
-<span class="n">x</span><span class="o">|</span><span class="n">y</span>                 <span class="err">匹配</span> <span class="n">x</span> <span class="err">或</span> <span class="n">y</span>
-<span class="p">[</span><span class="n">xyz</span><span class="p">]</span>               <span class="err">字符集，匹配包含的任一字符</span>
-<span class="p">[</span><span class="o">^</span><span class="n">xyz</span><span class="p">]</span>              <span class="err">反向字符集，匹配未包含的任何字符</span>
-<span class="p">[</span><span class="n">A</span><span class="o">-</span><span class="n">Z</span><span class="p">]</span>               <span class="n">A</span><span class="err">到</span><span class="n">Z</span><span class="err">中任意一个字符（大写）</span>
-<span class="p">[</span><span class="n">a</span><span class="o">-</span><span class="n">z</span><span class="p">]</span>               <span class="n">a</span><span class="err">到</span><span class="n">z</span><span class="err">中任意一个字符（小写）</span>
-<span class="p">[</span><span class="o">^</span><span class="n">a</span><span class="o">-</span><span class="n">z</span><span class="p">]</span>              <span class="err">反向范围字符，匹配不在指定范围内的任何字符串</span>
-<span class="p">[</span><span class="n">A</span><span class="o">-</span><span class="n">Za</span><span class="o">-</span><span class="n">z</span><span class="p">]</span>            <span class="n">a</span><span class="err">到</span><span class="n">z</span><span class="err">中任意一个字符（不区分大小写）</span>
-<span class="o">+</span>                   <span class="err">匹配一个或更多 ...</span></pre></div></div>
-  <footer>
-    <a rel="full-article" href="http://hellochosen.github.io/simple-usage-of-regex.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-  	  		<article>
-    		<header>
-          <h1 class="entry-title">
         <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
       </h1>
           <p class="meta"><time datetime="2013-09-26T00:00:00" pubdate>Thu 26 September 2013</time></p>
@@ -193,15 +97,6 @@
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
             <li class="post">
-          <a href="http://hellochosen.github.io/simple-factory-pattern.html">simple factory pattern</a>
-      </li>
-            <li class="post">
-          <a href="http://hellochosen.github.io/Design-pattern-and-python-object-model.html">Design pattern and python object model</a>
-      </li>
-            <li class="post">
-          <a href="http://hellochosen.github.io/simple-usage-of-regex.html">正则表达式用法</a>
-      </li>
-            <li class="post">
           <a href="http://hellochosen.github.io/extern-and-extern-c.html">extern and extern "C"</a>
       </li>
             <li class="post">
@@ -215,8 +110,6 @@
     <ul id="recent_posts">
               <li><a href="http://hellochosen.github.io/category/tool.html">Tool</a></li>
               <li><a href="http://hellochosen.github.io/category/cc.html">c/c++</a></li>
-              <li><a href="http://hellochosen.github.io/category/posts.html">posts</a></li>
-              <li><a href="http://hellochosen.github.io/category/software.html">software</a></li>
           </ul>
   </section>
    
