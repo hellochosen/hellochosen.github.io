@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://hellochosen.github.io/index.html</loc>
-<lastmod>2013-11-06T15:54:19-00:00</lastmod>
+<lastmod>2013-11-06T15:59:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/archives.html</loc>
-<lastmod>2013-11-06T15:54:19-00:00</lastmod>
+<lastmod>2013-11-06T15:59:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/tags.html</loc>
-<lastmod>2013-11-06T15:54:19-00:00</lastmod>
+<lastmod>2013-11-06T15:59:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://hellochosen.github.io/categories.html</loc>
-<lastmod>2013-11-06T15:54:19-00:00</lastmod>
+<lastmod>2013-11-06T15:59:05-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -36,27 +36,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2013-09-25T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
-</url>
-
-<url>
-<loc>http://hellochosen.github.io/Linux-kernel-coding-style.html</loc>
-<lastmod>2013-11-06T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-
-<url>
-<loc>http://hellochosen.github.io/what-we-learn-from-apue.html</loc>
-<lastmod>2013-10-28T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-
-<url>
-<loc>http://hellochosen.github.io/extern-and-extern-c.html</loc>
-<lastmod>2013-09-26T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
 </url>
 
 <url>
@@ -74,22 +53,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://hellochosen.github.io/category/cc.html</loc>
-<lastmod>2013-09-26T00:00:00-00:00</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>http://hellochosen.github.io/category/linux.html</loc>
-<lastmod>2013-11-06T00:00:00-00:00</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>http://hellochosen.github.io/author/squarey.html</loc>
-<lastmod>2013-11-06T00:00:00-00:00</lastmod>
+<lastmod>2013-09-25T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
