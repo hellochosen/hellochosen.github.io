@@ -4,7 +4,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>squarey's blog</title>
+  <title>Install opendaylight controller</title>
   <meta name="author" content="squarey">
 
     
@@ -50,12 +50,10 @@
   </ul></nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
-    	  		<article>
-    		<header>
-          <h1 class="entry-title">
-        <a href="http://hellochosen.github.io/Install-opendaylight-controller.html">Install opendaylight controller</a>
-      </h1>
+      <div>
+  <article class="hentry" role="article">
+    <header>
+          <h1 class="entry-title">Install opendaylight controller</h1>
           <p class="meta"><time datetime="2013-11-14T00:00:00" pubdate>Thu 14 November 2013</time></p>
 </header>
 
@@ -72,21 +70,74 @@
 
 <p>then , make your choice .</p>
 <p>2.Install maven</p>
-<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt ...</span></pre></div></div>
-  <footer>
-    <a rel="full-article" href="http://hellochosen.github.io/Install-opendaylight-controller.html">Read On &crarr;</a>
-  </footer>
-  		</article>
-  	  	<div class="pagination">
-  
-    <br />
-</div>  </div>
+<div class="highlight"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">maven</span>
+</pre></div>
+
+
+<p>3.Register user in opendaylight.org</p>
+<p>https://identity.opendaylight.org/carbon/admin/login.jsp</p>
+<p>4.Controller setup</p>
+<p>Access git via ssh</p>
+<p>howto:
+<a href="https://wiki.opendaylight.org/view/OpenDaylight_Controller:Gerrit_Setup">OpenDaylight Controller:Gerrit Setup</a></p>
+<p>5.Install</p>
+<p>a.Pull code via git CLI</p>
+<p>Pull the code by cloning the controller repository.</p>
+<div class="highlight"><pre><span class="nx">git</span> <span class="nx">clone</span> <span class="nx">ssh</span><span class="p">:</span><span class="c1">//&lt;username&gt;@git.opendaylight.org:29418/controller.git</span>
+</pre></div>
+
+
+<p>b.Setup Gerrit Change-id Commit Msg Hook</p>
+<p>This command inserts a unique Change-Id tag in the footer of a commit message. This step is optional but highly recommended for tracking changes.</p>
+<div class="highlight"><pre><span class="nx">cd</span> <span class="nx">controller</span>
+<span class="nx">scp</span> <span class="na">-p</span> <span class="na">-P</span> <span class="mi">29418</span> <span class="o">&lt;</span><span class="nx">username</span><span class="o">&gt;</span><span class="p">@</span><span class="nx">git.opendaylight.org</span><span class="p">:</span><span class="nx">hooks</span><span class="p">/</span><span class="nx">commit</span><span class="na">-msg</span> <span class="bp">.</span><span class="nx">git</span><span class="p">/</span><span class="nx">hooks</span><span class="o">/</span>
+<span class="nb">chmod</span> <span class="mi">755</span> <span class="bp">.</span><span class="nx">git</span><span class="p">/</span><span class="nx">hooks</span><span class="p">/</span><span class="nx">commit</span><span class="na">-msg</span>
+</pre></div>
+
+
+<p>c.Build the code</p>
+<p>-set environ :</p>
+<div class="highlight"><pre><span class="n">export</span> <span class="n">MAVEN_OPTS</span><span class="o">=</span><span class="s">&quot;-Xmx1024m -XX:MaxPermSize=256m&quot;</span>
+</pre></div>
+
+
+<p>-mvn install</p>
+<div class="highlight"><pre><span class="n">cd</span> <span class="n">opendaylight</span><span class="o">/</span><span class="n">distribution</span><span class="o">/</span><span class="n">opendaylight</span><span class="o">/</span>
+<span class="n">mvn</span> <span class="n">clean</span> <span class="n">install</span>
+</pre></div>
+
+
+<p>d.Run the controller</p>
+<div class="highlight"><pre><span class="n">cd</span> <span class="n">controller</span><span class="o">/</span><span class="n">opendaylight</span><span class="o">/</span><span class="n">distribution</span><span class="o">/</span><span class="n">opendaylight</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">distribution</span><span class="p">.</span><span class="n">opendaylight</span><span class="o">-</span><span class="n">osgipackage</span><span class="o">/</span><span class="n">opendaylight</span><span class="o">/</span>
+<span class="p">.</span><span class="o">/</span><span class="n">run</span><span class="p">.</span><span class="n">sh</span>
+</pre></div>
+
+
+<p>6.Finally point your browser at http://localhost:8080/ and login with U: admin P: admin</p>
+<p>see more:
+<a href="https://wiki.opendaylight.org/view/OpenDaylight_Controller:Pulling,_Hacking,_and_Pushing_the_Code_from_the_CLI">OpenDaylight Controller:Pulling, Hacking, and Pushing the Code from the CLI</a></p></div>
+    <footer>
+      <p class="meta">
+  <span class="byline author vcard">
+    Posted by <span class="fn">squarey</span>
+  </span>
+  <time datetime="2013-11-14T00:00:00" pubdate>Thu 14 November 2013</time>  </p>    </footer>
+  </article>
+
+    <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div>
+  </section>
+  </div>
       <aside class="sidebar">
   <section>
     <h1>Recent Posts</h1>
     <ul id="recent_posts">
             <li class="post">
           <a href="http://hellochosen.github.io/Install-opendaylight-controller.html">Install opendaylight controller</a>
+      </li>
+            <li class="post">
+          <a href="http://hellochosen.github.io/Using-github-and-pelican-build-blog.html">Using github and pelican build blog</a>
       </li>
           </ul>
   </section>
@@ -126,6 +177,9 @@
 </p></footer>
   	<script type="text/javascript">
 	  var disqus_shortname = 'hellochosen';
+                var disqus_identifier = '/Install-opendaylight-controller.html';
+          var disqus_url = 'http://hellochosen.github.io/Install-opendaylight-controller.html';
+          var disqus_title = 'Install opendaylight controller';
       	  (function() {
 	    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
 	    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

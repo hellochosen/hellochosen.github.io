@@ -1,206 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>squarey's blog</title><link href="http://hellochosen.github.io/" rel="alternate"></link><link href="http://hellochosen.github.io/feeds/posts.atom.xml" rel="self"></link><id>http://hellochosen.github.io/</id><updated>2013-09-30T00:00:00+08:00</updated><entry><title>simple factory pattern</title><link href="http://hellochosen.github.io/simple-factory-pattern.html" rel="alternate"></link><updated>2013-09-30T00:00:00+08:00</updated><author><name>squarey</name></author><id>tag:hellochosen.github.io,2013-09-30:simple-factory-pattern.html</id><summary type="html">&lt;h2&gt;创建型简单工厂模式&lt;/h2&gt;
-&lt;p&gt;简单工厂模式的实质是由一个工厂类根据传入的变量，动态决定应该创建出哪一个产品。factory创建出来的对象都有同样的接口可以被多态调用。&lt;/p&gt;
-&lt;h3&gt;一、创建型模式&lt;/h3&gt;
-&lt;p&gt;创建型模式（creational pattern）对类的实例化过程进行了抽象，能够使软件模块做到与对象创建和组织的无关性。&lt;/p&gt;
-&lt;p&gt;创建型模式根据生成目标的不同，可以分为类的创建型模式和对象的创建型模式2种：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;类的创建型模式&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;类的创建型模式通过使用继承关系，将类的创建由具体的子类来完成，这样就向外    界隐藏了如何得到具体类的具体细节，以及这些类的实例是如何被创建和组织在一起的。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;对象的创建型模型&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;对象的创建型模型模式通过把对象的创建委托给另一个对象来完成，可以根据语境动  态地决定生成哪些具体类的实例，同时还可以向外界隐藏这些实例是如何被创建以及  如何被组织在一起的细节。&lt;/p&gt;
-&lt;p&gt;所有创建型对象有2点最为主要：&lt;/p&gt;
-&lt;p&gt;第一，他们将系统使用哪些具体类的信息封装起来；&lt;/p&gt;
-&lt;p&gt;第二，他们隐藏了这些类的实例是如何被创建和组织的。&lt;/p&gt;
-&lt;p&gt;对于python，假设有这样一个类：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>squarey's blog</title><link href="http://hellochosen.github.io/" rel="alternate"></link><link href="http://hellochosen.github.io/feeds/posts.atom.xml" rel="self"></link><id>http://hellochosen.github.io/</id><updated>2013-11-14T00:00:00+08:00</updated><entry><title>Install opendaylight controller</title><link href="http://hellochosen.github.io/Install-opendaylight-controller.html" rel="alternate"></link><updated>2013-11-14T00:00:00+08:00</updated><author><name>squarey</name></author><id>tag:hellochosen.github.io,2013-11-14:Install-opendaylight-controller.html</id><summary type="html">&lt;p&gt;1.Install openjdk 7&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;openjdk&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;jdk&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;要创建实例，则执行下面语句：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Gary&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;p&gt;problem:&lt;/p&gt;
+&lt;p&gt;If your system has more than one version of Java, configure which one your system uses by entering the following command in the terminal:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;alternatives&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;但如果创建对象时完成的工作非常复杂，需要一段很长的代码，你就不能简单地将其全部写入__init__方法中，因为这会违背面向对象思想的两个基本原则：封装（encapsulation）和委派（delegation）。假如执意要做样做，结果只会使你的代码变成一段行为固定的硬编码（hard coding），而整个软件的结构都极有可能变得非常糟糕，因为其它某个模块也许就正依赖于你所创建的这个实例，这样就在无形之间增加了模块之间的耦合度。&lt;/p&gt;
-&lt;p&gt;可以将python对象的创建过程封装到某个类中来单独完成。下面6种创建型模式可以很好地改善对象的创建过程：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Simple Factory&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;专门定义一个类来负责创建其它类的实例，被创建的实例通常都具有共同的父类。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Factory Method &lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;将对象的创建交由父类中定义的一个标准方法来完成，而不是其构造函数，究竟应    该创建何种对象由具体的子类负责决定。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Abstract Factory&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;提供一个共同的接口来创建相互关联的多个对象。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Singleton&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;保证系统只会产生该类的一个实例，同时还负责向外界提供访问该实例的标准方法&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Builder&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;将复杂对象的创建同它们的具体表现形式（representation）区别开来，这样可以    根据需要得到具有不同表现形式的对象。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Prototype&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;利用一个能对自身进行复制的类，使得对象的动态创建变得更加容易。&lt;/p&gt;
-&lt;h3&gt;二、模式&lt;/h3&gt;
-&lt;p&gt;简单工厂（Simple Factory）模式又称为静态工厂方法（static factory method）模式，属于类的创建型模式。这种模式根据外界给定的信息，由"工厂"对象"制造"出某些可能"产品"类中的一个实例，工厂对象能够处理的所有类通常都继承于同一个父类，并且对外界提供基本相同的接口，只不过在具体实现时会有所差别罢了。&lt;/p&gt;
-&lt;p&gt;例如开发一个绘图程序，用来绘制简单的几何图形，这个程序应该能够处理下面的几种几何对象： &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;圆形（Circle）&lt;/li&gt;
-&lt;li&gt;矩形（Rectangle）&lt;/li&gt;
-&lt;li&gt;菱形（Diamond）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;所有几何图形具有的公共方法：绘制（draw）和擦除（erase），因而可以为它们定义一个共同的接口Shape。&lt;/p&gt;
-&lt;p&gt;Shape接口定义了所有几何图形都必须实现的公共方法： draw()和erase()，实现该接口的Python代码如下所示，Python中没有接口的概念，因此在具体实现时可以使用类来替代。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Shape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;pass&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;p&gt;then , make your choice .&lt;/p&gt;
+&lt;p&gt;2.Install maven&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;maven&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Circle类是Shape的一种具体形式，它实现了Shape接口定义的所有方法，此外还添加了一个属性__radius，用来表示圆的半径。以下是实现Circle类的代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Circle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Shape&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;radius&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__radius&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Draw Circle&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Erase Circle&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getRadius&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__radius&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;setRadius&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;radius&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__radius&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt;
+&lt;p&gt;3.Register user in opendaylight.org&lt;/p&gt;
+&lt;p&gt;https://identity.opendaylight.org/carbon/admin/login.jsp&lt;/p&gt;
+&lt;p&gt;4.Controller setup&lt;/p&gt;
+&lt;p&gt;Access git via ssh&lt;/p&gt;
+&lt;p&gt;howto:
+&lt;a href="https://wiki.opendaylight.org/view/OpenDaylight_Controller:Gerrit_Setup"&gt;OpenDaylight Controller:Gerrit Setup&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5.Install&lt;/p&gt;
+&lt;p&gt;a.Pull code via git CLI&lt;/p&gt;
+&lt;p&gt;Pull the code by cloning the controller repository.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;git&lt;/span&gt; &lt;span class="nx"&gt;clone&lt;/span&gt; &lt;span class="nx"&gt;ssh&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//&amp;lt;username&amp;gt;@git.opendaylight.org:29418/controller.git&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;同理Rectangle类的代码如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Shape&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Draw Rectangle&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Erase Rectangle&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;setWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;setHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;
+&lt;p&gt;b.Setup Gerrit Change-id Commit Msg Hook&lt;/p&gt;
+&lt;p&gt;This command inserts a unique Change-Id tag in the footer of a commit message. This step is optional but highly recommended for tracking changes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;cd&lt;/span&gt; &lt;span class="nx"&gt;controller&lt;/span&gt;
+&lt;span class="nx"&gt;scp&lt;/span&gt; &lt;span class="na"&gt;-p&lt;/span&gt; &lt;span class="na"&gt;-P&lt;/span&gt; &lt;span class="mi"&gt;29418&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;username&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="nx"&gt;git.opendaylight.org&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;hooks&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="na"&gt;-msg&lt;/span&gt; &lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;git&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;hooks&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="nb"&gt;chmod&lt;/span&gt; &lt;span class="mi"&gt;755&lt;/span&gt; &lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;git&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;hooks&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="na"&gt;-msg&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Diamond类的实现代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Diamond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Shape&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Draw Diamond&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Erase Diamond&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;setWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;setHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__height&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;
+&lt;p&gt;c.Build the code&lt;/p&gt;
+&lt;p&gt;-set environ :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;export&lt;/span&gt; &lt;span class="n"&gt;MAVEN_OPTS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;-Xmx1024m -XX:MaxPermSize=256m&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;所有几何图形类都定义好后，下面要做的就是提供一个"工厂"类ShapeFactory，来创建各种几何图形的具体实例。ShapeFactory类的作用就是根据外界的要求，创建出不同的几何图形对象，如圆形（Circle）、矩形（Rectangle）或菱形（Diamond）.&lt;/p&gt;
-&lt;p&gt;ShapeFactory类用于创建各种几何图形的实例，其实现代码如下所示：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ShapeFactory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;which&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Circle&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Circle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Rectangle&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Rectangle&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Diamond&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;Diamond&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;
+&lt;p&gt;-mvn install&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;distribution&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;mvn&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;在ShapeFactory类中只定义了一个方法factory()，外界通过调用该方法，来创建其所需的几何图形对象，但如果所请求的类是系统所不支持的，则将返回None。在引入了工厂类之后，其它模块如果想生成几何图形类的实例，只需调用ShapeFactory类的factory()方法就可以了：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;fac&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ShapeFactory&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;shape&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;factory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Diamond&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;shape&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;draw&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;p&gt;d.Run the controller&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="n"&gt;controller&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;distribution&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;distribution&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;osgipackage&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opendaylight&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;这样就成功地将类是如何创建的这一实现细节向外界隐藏起来了，这就是简单工厂模式所采取的基本策略。&lt;/p&gt;
-&lt;h3&gt;三、一般结构&lt;/h3&gt;
-&lt;p&gt;简单工厂模式属于类的创建型模式，适合用来对大量具有共同接口的类进行实例化，它可以推迟到运行的时候才动态决定要创建哪个类的实例，而不是在编译时就必须知道要实例化哪个类。&lt;/p&gt;
-&lt;p&gt;简单工厂模式的实质是由一个工厂类根据传入的参量，动态决定应该创建出哪一个产品类的实例。简单工厂模式涉及到工厂角色、抽象产品角色和具体产品角色三个参与者。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;工厂（Creator）角色&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;是简单工厂模式的核心，它负责实现创建所有实例的内部逻辑。工厂类可以被外界直  接调用，创建所需的产品对象。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;抽象产品（Product）角色 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;是简单工厂模式所创建的所有对象的父类，它负责描述所有实例所共有的公共接口。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;具体产品（Concrete Product）角色&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;是简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例&lt;/p&gt;
-&lt;p&gt;工厂角色负责创建一个具体产品的实例，并将其返回给调用者，以下是工厂类的示例性Python代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Creator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="c"&gt;#创建具体产品类的方法&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;factory&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ConcreteProduct&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;抽象产品角色的主要目的是为所有的具体产品提供一个共同的接口，通常只需给出相应的声明就可以了，而不用给出具体的实现。以下是抽象产品类的示例性Python代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="c"&gt;#所有具体产品类的公共接口&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;interface&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;pass&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;具体产品角色充当最终的创建目标，一般来讲它是抽象产品类的子类，实现了抽象产品类中定义的所有接口方法。以下是具体产品类的示例性Python代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ConcreteProduct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Product&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="c"&gt;#公共接口的实现&lt;/span&gt;
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;interface&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Concrete Product Method&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;在应用简单工厂模式时，可以采用下面的示例性Python代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;fac&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Creator&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;factory&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;interface&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;在这个简单的示意性实现里，充当具体产品角色的类只有一个，但在真正的实际应用中，通常遇到的都是同时有多个具体产品类的情况。&lt;/p&gt;
-&lt;h3&gt;4、优势和不足&lt;/h3&gt;
-&lt;p&gt;在简单工厂模式中，工厂类是整个模式的关键所在，它包含必要的判断逻辑，能够根据外界给定的信息，决定究竟应该创建哪个具体类的对象。通过使用工厂类，外界可以从直接创建具体产品对象的尴尬局面中摆脱出来，仅仅只需要负责"消费"对象就可以了，而不必管这些对象究竟是如何创建以及如何组织的，这样就清晰了各自的职责和权力，有利于整个软件体系结构的优化。&lt;/p&gt;
-&lt;p&gt;简单工厂模式的缺点也正体现在其工厂类上。由于工厂类集中了所有实例的创建逻辑，是一个无所不能的"全能类"（God Class），因此它对整个软件系统是至关重要的，如果这个类无法正常工作，其它部分可能都会受到牵连。&lt;/p&gt;
-&lt;p&gt;将全部创建逻辑都集中到一个工厂类中还有另外一个缺点，那就是当系统中的具体产品类不断增多时，可能会出现要求工厂类根据不同条件创建不同实例的需求，这种对条件的判断和对具体产品类型的判断交织在一起，很难避免模块功能的蔓延，对系统的扩展和维护也非常不利。&lt;/p&gt;
-&lt;p&gt;Reference:&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://www.ibm.com/developerworks/cn/linux/l-pypt/part2/index.html"&gt;创建型 Simple Factory 模式&lt;/a&gt;&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;6.Finally point your browser at http://localhost:8080/ and login with U: admin P: admin&lt;/p&gt;
+&lt;p&gt;see more:
+&lt;a href="https://wiki.opendaylight.org/view/OpenDaylight_Controller:Pulling,_Hacking,_and_Pushing_the_Code_from_the_CLI"&gt;OpenDaylight Controller:Pulling, Hacking, and Pushing the Code from the CLI&lt;/a&gt;&lt;/p&gt;</summary></entry></feed>
